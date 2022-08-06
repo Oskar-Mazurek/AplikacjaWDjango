@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wykaz Specjalistów</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/wykazPacjentów.css' %}"/>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
+</head>
+<body>
+<header>
+    <ul id="ul">
+        <li id="li"><a id="a" href="{% url 'Przychodnia-home' %}">Strona domowa</a></li>
+        <li id="li"><a id="a" href="{% url 'Przychodnia-contact' %}">Kontakt</a></li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-logout' %}">Wyloguj</a></li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-profil' %}">Profil</a></li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-about' %}">O Przychodni</a></li>
+        {% if user.is_authenticated %}
+            <li id="username">Zalogowano jako {{ user.username }}</li>
+        {% endif %}
+    </ul>
+</header>
+<h1 style="margin-left: 2%; margin-top: 3%">Wykaz specjalistów:</h1>
+<table>
+    <tr>
+        <th>Numer Specjalisty</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Specjalizacja</th>
+    </tr>
+
+    {% for lekarz in specjaliści %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ lekarz.Imie }}</td>
+            <td>{{ lekarz.Nazwisko }}</td>
+            <td>{{ specjalizacja.IdSpecjalizacji }}</td>
+            {#            specjalizacja#}
+        </tr>
+    {% endfor %}
+
+</table>
+<footer>
+    <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
+</footer>
+</body>
+</html>

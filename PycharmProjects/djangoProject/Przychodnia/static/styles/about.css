@@ -1,0 +1,98 @@
+header {
+    height: auto;
+}
+
+html {
+    background-color: paleturquoise;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    -webkit-text-stroke: 0.5px black;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #111;
+}
+
+.active {
+    background-color: cornflowerblue;
+    font-weight: bold;
+}
+
+li {
+    border-right: 1px solid #bbb;
+}
+
+li:last-child {
+    border-right: none;
+}
+
+
+#nagłówek {
+    color: white !important;
+    padding-top: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    -webkit-text-stroke: 0.5px black;
+}
+
+.center {
+    margin: 100px;
+    width: 50%;
+    border: 3px solid cornflowerblue;
+    border-radius: 5px;
+    background-color: lightcyan;
+    padding: 10px;
+    text-align: justify;
+}
+
+footer {
+    text-align: left;
+    padding: 3px;
+    background-color: cornflowerblue;
+    display: block;
+    color: white;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    -webkit-text-stroke: 0.5px black;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.main {
+    background-color: paleturquoise;
+}
+
+#username{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: bold;
+}

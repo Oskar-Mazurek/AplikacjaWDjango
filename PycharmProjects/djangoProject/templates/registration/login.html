@@ -1,0 +1,47 @@
+{% load bootstrap %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Logowanie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}"/>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
+</head>
+<body>
+<header>
+    <ul id="ul">
+        <li id="li"><a id="a" href="{% url 'Przychodnia-home' %}">Strona domowa</a></li>
+        <li id="li"><a id="a" href="{% url 'Przychodnia-contact' %}">Kontakt</a></li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-register' %}">Rejestracja</a></li>
+        <li id="li" style="float:right"><a id="a" class="active" href="{% url 'Przychodnia-login' %}">Zaloguj się</a>
+        </li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-about' %}">O Przychodni</a></li>
+    </ul>
+</header>
+<div class="main">
+    <h1 id="nagłówek">Logowanie</h1>
+    <div class="center">
+        <form method="post">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <button style="margin-top: 1%; border-radius: 5px" type="submit">Zaloguj</button>
+            <p style="margin-top: 10px">
+                Nie masz konta?
+                <a id="link" href="{% url 'Przychodnia-register' %}">Rejestracja</a>
+                <a id="link" href="{% url 'password_reset' %}">Zmiana hasła</a>
+            </p>
+        </form>
+    </div>
+</div>
+<footer>
+    <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
+</footer>
+</body>
+</html>

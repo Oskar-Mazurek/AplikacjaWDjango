@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Profil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/profil.css' %}"/>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
+</head>
+<body>
+<header>
+    <ul id="ul">
+        <li id="li"><a id="a" href="{% url 'Przychodnia-home' %}">Strona domowa</a></li>
+        <li id="li"><a id="a" href="{% url 'Przychodnia-contact' %}">Kontakt</a></li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-logout' %}">Wyloguj</a></li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-wykazPacjentów' %}">Wykaz
+            pacjentów</a></li>
+        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-wykazSpecjalistów' %}">Wykaz
+            specjalistów</a></li>
+        <li id="li" style="float:right; border-right: white solid 1px;border-left: white solid 1px"><a id="a"
+                                                                                                       href="{% url 'Przychodnia-about' %}">OPrzychodni</a>
+        </li>
+        {% if user.is_authenticated %}
+            <li id="username">Zalogowano jako {{ user.username }}</li>
+        {% endif %}
+    </ul>
+</header>
+<div id="header">Witaj {{ user.username }}</div>
+<div style=" display: flex;
+    justify-content: space-between;">
+    <h2>Twoje dane</h2>
+    <h2 style="margin-right:38%">Twoje wizyty</h2>
+</div>
+
+<div class="row">
+    <div class="column">
+        <table>
+            <tr>
+                <th>Etykieta</th>
+                <th>Dane</th>
+            </tr>
+            <tr>
+                <td>Imię</td>
+                <td>Oskar</td>
+            </tr>
+            <tr>
+                <td>Nazwisko</td>
+                <td>Mazurek</td>
+            </tr>
+            <tr>
+                <td>Pesel</td>
+                <td>00222001595</td>
+            </tr>
+            <tr>
+                <td>Numer telefonu</td>
+                <td>691042000</td>
+            </tr>
+            <tr>
+                <td>Ulica</td>
+                <td>Wólka Podleśna 160b</td>
+            </tr>
+            <tr>
+                <td>Miasto</td>
+                <td>Jasionka</td>
+            </tr>
+            <tr>
+                <td>Kod pocztowy</td>
+                <td>36-002</td>
+            </tr>
+            <tr>
+                <td>Nazwa użytkownika</td>
+                <td>OskarM</td>
+            </tr>
+            <tr>
+                <td>Hasło</td>
+                <td>
+                    <button>Zmień</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>168461@stud.prz.edu.pl</td>
+            </tr>
+            <tr>
+                <td>Typ użytkownika</td>
+                <td>Pacjent</td>
+            </tr>
+        </table>
+    </div>
+    <div class="column">
+        <table>
+            <tr>
+                <th>Numer wizyty</th>
+                <th>Lekarz</th>
+                <th>Cel wizyty</th>
+                <th>Termin</th>
+                <th>Odwołaj</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Pediatra</td>
+                <td>Przeziębienie</td>
+                <td>20.11.2022 11:15</td>
+                <td>
+                    <button>Odwołaj</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Alergolog</td>
+                <td>Testy skórne</td>
+                <td>23.11.2022 12:25</td>
+                <td>
+                    <button>Odwołaj</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Reumatolog</td>
+                <td>Ból pleców</td>
+                <td>5.12.2022 13:15</td>
+                <td>
+                    <button>Odwołaj</button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Okulista</td>
+                <td>Badanie wzroku</td>
+                <td>7.12.2022 13:00</td>
+                <td>
+                    <button>Odwołaj</button>
+                </td>
+            </tr>
+        </table>
+        <button style="margin-left: 40%; margin-top: 10%" onclick="zapisNaWizytę()">Zapisz się na wizytę</button>
+        <a id="a" href="{% url 'Przychodnia-logout' %}">
+            <button style="margin-left: 40%; width: 150.15px;" onclick="logout()">Wyloguj</button>
+        </a>
+        <div style="margin-left: 40%;"><a id="a" href="{% url 'Przychodnia-contact' %}">
+            <button style=" width: 150.15px;" type="button">Kontakt</button>
+        </a></div>
+    </div>
+</div>
+
+<footer style="float: bottom;">
+    <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
+</footer>
+</body>
+<script>
+    function logout() {
+        console.log("Wylogowywanie");
+    }
+
+    function zapisNaWizytę() {
+        console.log("Zapis na wizytę");
+    }
+</script>
+</html>
