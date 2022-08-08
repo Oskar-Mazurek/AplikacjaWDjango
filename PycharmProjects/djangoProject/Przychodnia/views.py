@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import Rejestracja
+from .forms import CustomerForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -19,12 +21,22 @@ def login(request):
 
 
 def register(request):
-    form = Rejestracja(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        messages.info(request, 'Pomyślnie zarejestrowano!')
-        form.save()
-
-    return render(request, 'register.html', {'form': form})
+    if request.method == 'GET':
+        return render(request, 'registration/register.html',
+                      {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
+    else:
+        userForm = UserCreationForm(request.POST)
+        #customerForm = CustomerForm(request.POST)
+        #if userForm.is_valid() and customerForm.is_valid():
+        user = User.objects.create_user(request.POST['username'], '', request.POST['password1'])
+        user.save()
+        login(request, user)
+        return redirect('homepage')  # komunikat ze success
+        #else:
+           # return render(request, 'registration/register.html',
+                         # {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
+            # zwrocil  return render(request, 'registration/register.html', {'customerForm': CustomerForm(), 'userForm':UserCreationForm()})
+            # komunikat z bledem
 
 
 def contact(request):

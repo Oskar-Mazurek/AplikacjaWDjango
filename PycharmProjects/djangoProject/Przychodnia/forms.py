@@ -3,15 +3,13 @@ from .models import Customer, User
 from django import forms
 
 
-class Rejestracja(ModelForm):
+class CustomerForm(ModelForm):
     # Haslo = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = Customer
-        fields = ['user', 'userType', 'name', 'surname', 'pesel', 'telephoneNumber', 'street', 'city',
-                  'zipCode']
+        exclude = ('user', 'userType')
         labels = {
-            'userType': 'Typ użytkownika',
             'name': 'Imię',
             'surname': 'Nazwisko',
             'pesel': 'Pesel',
@@ -20,3 +18,4 @@ class Rejestracja(ModelForm):
             'city': 'Miasto',
             'zipCode': 'Kod pocztowy'
         }
+        prefix = 'customerForm'

@@ -8,7 +8,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     USER_TYPES = (('ADM', 'Administrator'), ('DOC', 'Lekarz'), ('PAT', 'Pacjent'))
     userType = models.CharField(max_length=3, choices=USER_TYPES, default='PAT')
-    pesel = models.IntegerField(max_length=11, default=0, unique=True)
+    pesel = models.IntegerField(max_length=11, unique=True)
     name = models.CharField(max_length=20)
     surname = models.CharField(max_length=40)
     telephoneNumber = models.IntegerField(max_length=20, blank=True)
