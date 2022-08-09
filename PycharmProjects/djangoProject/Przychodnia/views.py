@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from . import forms
 from .forms import CustomerForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -26,17 +28,28 @@ def register(request):
                       {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
     else:
         userForm = UserCreationForm(request.POST)
-        #customerForm = CustomerForm(request.POST)
-        #if userForm.is_valid() and customerForm.is_valid():
-        user = User.objects.create_user(request.POST['username'], '', request.POST['password1'])
-        user.save()
-        login(request, user)
-        return redirect('homepage')  # komunikat ze success
-        #else:
-           # return render(request, 'registration/register.html',
-                         # {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
-            # zwrocil  return render(request, 'registration/register.html', {'customerForm': CustomerForm(), 'userForm':UserCreationForm()})
-            # komunikat z bledem
+        customerForm = CustomerForm(request.POST)
+        # if userForm.is_valid() and customerForm.is_valid():
+        checkUser = request.POST['username']
+        #coś nie zgadza się w if, is_valid jest chyba powodem
+        if request.POST['password1'] == request.POST['password2'] and userForm.is_valid() and customerForm.is_valid():
+            user = User.objects.create_user(request.POST['username'], request.POST['email'],
+                                            request.POST['password1'])  # tutaj brakuje porównania z bazą danych
+            messages.info(request, 'Pomyślnie zarejestrowano! Teraz zaloguj się')  # komunikat ze success
+            user.save()
+        else:
+            messages.info(request, 'Błąd w formularzu!')  # komunikat z bledem
+        return render(request, 'registration/register.html',
+                      {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
+    # login(request, user)
+    # return redirect('homepage')  # komunikat ze success
+
+
+# else:
+# return render(request, 'registration/register.html',
+# {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
+# zwrocil  return render(request, 'registration/register.html', {'customerForm': CustomerForm(), 'userForm':UserCreationForm()})
+# komunikat z bledem
 
 
 def contact(request):

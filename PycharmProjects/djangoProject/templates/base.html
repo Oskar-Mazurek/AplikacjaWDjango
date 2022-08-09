@@ -4,12 +4,45 @@
     <meta charset="UTF-8">
     <title>{% block title %}Przychodnia{% endblock title %}</title>
     <!-- Plik/pliki css + linki do bootstrapa-->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
 </head>
 <body>
 <!--Pasek nawigacji-->
 
+<header>
+    <ul id="ul">
+        <li id="li"><a id="a" href="{% url 'homepage' %}">Strona domowa</a></li>
+        <li id="li"><a id="a" href="{% url 'contact' %}">Kontakt</a></li>
+        {% if user.is_authenticated %}
+            <li id="li" style="float:right"><a id="a" href="{% url 'logout' %}">Wyloguj</a></li>
+            <li id="li" style="float:right"><a id="a" href="{% url 'profil' %}">Profil</a></li>
+            <li id="li" style="float:right"><a id="a" href="{% url 'wykazPacjentów' %}">Wykaz
+                pacjentów</a></li>
+            <li id="li" style="float:right"><a id="a" href="{% url 'wykazSpecjalistów' %}">Wykaz
+                specjalistów</a></li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+            <li id="li" style="float:right"><a id="a" href="{% url 'register' %}">Rejestracja</a>
+            </li>
+            <li id="li" style="float:right"><a id="a" href="{% url 'login' %}">Zaloguj się</a>
+            </li>
+        {% endif %}
+        <li id="li" style="float:right"><a id="a" href="{% url 'about' %}">O Przychodni</a></li>
+        {% if user.is_authenticated %}
+            <li id="username">Zalogowano jako {{ user.username }}</li>
+        {% endif %}
+    </ul>
+</header>
 {% block content %}{% endblock content %}
 
 <!--Stopka-->
+<footer>
+    <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
+</footer>
 </body>
 </html>

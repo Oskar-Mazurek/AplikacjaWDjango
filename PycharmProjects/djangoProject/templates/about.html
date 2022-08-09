@@ -1,38 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>O przychodni</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}"/>
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}O przychodni{% endblock title %}
 
-    <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
-</head>
-<body>
-<header></header>
-<ul>
-    <li><a href="{% url 'Przychodnia-home' %}">Strona domowa</a></li>
-    <li><a href="{% url 'Przychodnia-contact' %}">Kontakt</a></li>
-    <li style="margin-left: 25%; border-right: none;"><h1 id="nagłówek">O przychodni</h1></li>
-    {% if user.is_authenticated %}
-        <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-profil' %}">Profil</a></li>
-    {% else %}
-        <li style="float:right"><a href="{% url 'Przychodnia-register' %}">Rejestracja</a></li>
-        <li style="float:right"><a href="{% url 'Przychodnia-login' %}">Zaloguj się</a></li>
-    {% endif %}
-    <li style="float:right"><a class="active" href="{% url 'Przychodnia-about' %}">O Przychodni</a></li>
-    {% if user.is_authenticated %}
-        <li id="username">Zalogowano jako {{ user.username }}</li>
-    {% endif %}
-</ul>
-</header>
+{% block content %}
 <div class="main">
-    <div class="center">
+    <div class="center"style="margin-top: 100px">
         Niepubliczna Specjalistyczna Poradnia Psychologiczno Pedagogiczna “ISTMUS” w Rzeszowie to Poradnia
         psychologiczno-pedagogiczna znajdująca się na Lenartowicza nr 9 kod pocztowy 35-051 poczta Rzeszów. Kontakt i nr
         telefonu do Niepublicznej Specjalistycznej Poradnini Psychologiczno Pedagogiczna “ISTMUS” w Rzeszowie to
@@ -42,8 +14,4 @@
         sprawozdawczej 36287474400000. Wielkość klas: 2, uczniów 0, nauczycieli 0.
     </div>
 </div>
-<footer>
-    <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
-</footer>
-</body>
-</html>
+{% endblock content %}

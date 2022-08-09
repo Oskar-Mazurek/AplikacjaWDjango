@@ -122,5 +122,5 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'Przychodnia-profil'
-LOGOUT_REDIRECT_URL = 'Przychodnia-login'
+LOGIN_REDIRECT_URL = 'profil'
+LOGOUT_REDIRECT_URL = 'login'

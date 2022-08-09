@@ -1,12 +1,59 @@
 {% extends 'base.html' %}
+{% load bootstrap %}
 {% block title %}Rejestracja{% endblock title %}
 
 {% block content %}
-    <form method="post" action="{% url 'register' %}">
-        {#    |bootstrap#}
-        {{ userForm }}
-        {{ customerForm }}
-        {% csrf_token %}
-    <button type="submit">Zarejestruj</button>
-    </form>
+    <div class="main">
+        <h1 id="nagłówek">Rejestracja</h1>
+        </ul>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="center">
+            <form method="post" action="{% url 'register' %}">
+                {{ userForm|bootstrap }}
+                {{ customerForm|bootstrap }}
+                {% csrf_token %}
+                {#                ValidateEmail();#}
+                <button type="submit" style="border-radius: 5px; margin-top: 5px"
+                        onclick="ValidateEmail();EqualPasswords()">Zarejestruj
+                </button>
+                <p>
+                    Masz ju&#380; konto?
+                    <a id="link" href="{% url 'login' %}">Logowanie</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    <script>
+        function ValidateEmail() {
+            input = document.getElementById("id_Email");
+            var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (input.value.match(validRegex)) {
+                console.log("Email poprawny");
+                return true;
+            } else {
+                alert("Niepoprawny adres Email!");
+                return false;
+            }
+        }
+
+            {#nie działa, chociaż powinno#}
+
+            function EqualPasswords() {
+                var pass = document.getElementById("id_password1").value;
+                var rpass = document.getElementById("id_password2").value;
+                if (pass !== rpass) {
+                    alert("Hasła nie są takie same");
+                    return false;
+                } else if (pass === rpass) {
+                    console.log("Hasła takie same");
+                    return true;
+                }
+            }
+    </script>
 {% endblock content %}

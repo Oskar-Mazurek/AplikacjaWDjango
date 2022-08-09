@@ -1,57 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Przychodnia</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}"/>
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Strona główna{% endblock title %}
 
-    <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
-</head>
-<body>
-<header>
-    <ul>
-        <li><a class="active" href="{% url 'Przychodnia-home' %}">Strona domowa</a></li>
-        <li><a href="{% url 'Przychodnia-contact' %}">Kontakt</a></li>
-        <li style="margin-left: 25%; border-right: none;"><h1 id="nagłówek">
-            Strona domowa Przychodni</h1>
-        </li>
-        {% if user.is_authenticated %}
-            <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-logout' %}">Wyloguj</a></li>
-        {% else %}
-            <li style="float:right"><a href="{% url 'Przychodnia-register' %}">Rejestracja</a></li>
-            <li style="float:right"><a href="{% url 'Przychodnia-login' %}">Zaloguj się</a></li>
-        {% endif %}
-        <li style="float:right; border-right: 1px solid #bbb;"><a href="{% url 'Przychodnia-about' %}">O Przychodni</a>
+{% block content %}
+    <div class="main">
+        </br>
+        </br>
+        </br>
+        {% load static %}
+        <div id="content-main" style="background-image: url('{% static "img/lekarze.jpg" %}');
+                background-repeat: no-repeat;">
+            <p id="nazwa">Witamy w systemie rejestracji do Specjalistycznej Poradni Psychologiczno-Pedagogicznej
+                ISTMUS</p>
             {% if user.is_authenticated %}
-                <li id="li" style="float:right"><a id="a" href="{% url 'Przychodnia-profil' %}">Profil</a></li>
+            {% else %}
+                <a id="logowanie" href="{% url 'login' %}">Zaloguj się</a>
             {% endif %}
-        </li>
-        {% if user.is_authenticated %}
-            <li id="username">Zalogowano jako {{ user.username }}</li>
-        {% endif %}
-    </ul>
-</header>
-<div class="main">
-    </br>
-    </br>
-    </br>
-    <div id="content-main" style="background-image: url('{% static "img/lekarze.jpg" %}');
-            background-repeat: no-repeat;">
-        <p id="nazwa">Witamy w systemie rejestracji do Specjalistycznej Poradni Psychologiczno-Pedagogicznej ISTMUS</p>
-        {% if user.is_authenticated %}
-        {% else %}
-            <a id="logowanie" href="{% url 'Przychodnia-login' %}">Zaloguj się</a>
-        {% endif %}
+        </div>
     </div>
-</div>
-<footer>
-    <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
-</footer>
-</body>
-</html>
+{% endblock content %}
