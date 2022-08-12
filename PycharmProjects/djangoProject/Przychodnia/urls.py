@@ -12,6 +12,7 @@ urlpatterns = [
     path('login/', views.log, name='login'),
     path('rejestracja/', views.register, name='register'),
     path('logout/', views.logoutUser, name='logout'),
+    path('zmianaHasła/', views.changePassword, name='changePassword')
 ]
 # tak robi się klasowo
 # path('password_reset', PasswordResetView.as_view(), name='password_reset'),

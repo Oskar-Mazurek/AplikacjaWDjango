@@ -1,12 +1,14 @@
-from django.shortcuts import render, redirect
-from django.db import IntegrityError
-from . import forms
-from .forms import CustomerForm
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import *
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.db import IntegrityError
+from django.shortcuts import render, redirect
+
+from .forms import CustomerForm
+from .models import *
 
 
 # Create your views here.
@@ -18,6 +20,7 @@ def about(request):
     return render(request, 'about.html')
 
 
+# logowanie
 def log(request):
     if request.method == 'GET':
         return render(request, 'registration/login.html', {'authenticationForm': AuthenticationForm(), })
@@ -32,6 +35,7 @@ def log(request):
             # No backend authenticated the credentials
             messages.error(request, 'Nie udało się zalogować, błędne dane logowania')
             return render(request, 'registration/login.html', {'authenticationForm': AuthenticationForm(), })
+
 
 @login_required
 def logoutUser(request):
@@ -101,4 +105,20 @@ def wykazSpecjalistów(request):
     return render(request, 'wykazSpecjalistów.html',
                   {'specjaliści': specjaliści, })
 
+
 # 'specjalizacja': specjalizacja
+
+@login_required
+def changePassword(request):
+    if request.method == 'GET':
+        passwordChangeForm = PasswordChangeForm(request.user)
+    else:
+        passwordChangeForm = PasswordChangeForm(request.user, request.POST)
+        if passwordChangeForm.is_valid():
+            user = passwordChangeForm.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Twoje hasło zostało zmienione!')
+            return redirect('changePassword')
+        else:
+            messages.error(request, 'Popraw błędy w formularzu.')
+    return render(request, 'changePassword.html', {'form': passwordChangeForm})

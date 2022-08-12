@@ -170,7 +170,7 @@ footer {
 
 #username {
     display: block;
-    color: white;
+    color: darkcyan;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -196,45 +196,81 @@ footer {
     color: red;
     font-weight: bolder;
     filter: brightness(200%);
-     font-weight: bolder;
+    list-style: none;
     text-decoration: none;
-    animation: blinkingText 2s infinite;
+    animation: blinkingError 2s infinite;
+    margin-top: 50px;
+    margin-right: 10px;
+    font-size: larger;
+    max-width: 300px;
+    text-align: justify;
+}
+
+@keyframes blinkingError {
+    0% {
+        color: white;
+    }
+
+    20% {
+        color: red;
+    }
+
+    40% {
+        color: white;
+    }
+
+    60% {
+        color: red;
+    }
+
+    80% {
+        color: white;
+    }
+
+    100% {
+        color: red;
+    }
 }
 
 .success {
     color: green;
     font-weight: bolder;
     filter: brightness(200%);
-    animation: blinkingText 2s infinite;
-    font-weight: bolder;
+    animation: blinkingSuccess 2s infinite;
+    list-style: none;
     text-decoration: none;
+    margin-top: 50px;
+    margin-right: 10px;
+    font-size: larger;
+    max-width: 300px;
+    text-align: justify;
 }
 
-/*@keyframes blinkingText {*/
-/*    0% {*/
-/*        color: white;*/
-/*    }*/
+@keyframes blinkingSuccess {
+    0% {
+        color: white;
+    }
 
-/*    20% {*/
-/*        color: green;*/
-/*    }*/
+    20% {
+        color: green;
+    }
 
-/*    40% {*/
-/*        color: white;*/
-/*    }*/
+    40% {
+        color: white;
+    }
 
-/*    60% {*/
-/*        color: green;*/
-/*    }*/
+    60% {
+        color: green;
+    }
 
-/*    80% {*/
-/*        color: white;*/
-/*    }*/
+    80% {
+        color: white;
+    }
 
-/*    100% {*/
-/*        color: green;*/
-/*    }*/
-/*}*/
+    100% {
+        color: green;
+    }
+}
 
 /*tabele*/
 

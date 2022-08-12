@@ -30,7 +30,6 @@
             <li id="li" style="float:right"><a id="a" href="{% url 'register' %}">Rejestracja</a>
             </li>
             <li id="li" style="float:right"><a id="a" href="{% url 'login' %}">Zaloguj się</a>
-            </li>
         {% endif %}
         <li id="li" style="float:right"><a id="a" href="{% url 'about' %}">O Przychodni</a></li>
         {% if user.is_authenticated %}
@@ -38,6 +37,24 @@
         {% endif %}
     </ul>
 </header>
+<aside style="float: right">
+{% if user.is_authenticated %}
+    <div>
+        <br>
+        <br>
+        <br>
+        <a id="btn" href="{% url 'changePassword' %}">Zmiana hasła</a>
+    </div>
+{% endif %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</aside>
+
 {% block content %}{% endblock content %}
 
 <!--Stopka-->
