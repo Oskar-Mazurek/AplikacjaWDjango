@@ -8,6 +8,13 @@
         </br>
         </br>
         {% load static %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <div id="content-main" style="background-image: url('{% static "img/lekarze.jpg" %}');
                 background-repeat: no-repeat;">
             <p id="nazwa">Witamy w systemie rejestracji do Specjalistycznej Poradni Psychologiczno-Pedagogicznej

@@ -6,14 +6,21 @@
 <div class="main">
     <h1 id="nagłówek">Logowanie</h1>
     <div class="center">
-        <form method="post">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            {{ form|bootstrap }}
+            {{ authenticationForm|bootstrap }}
             <button style="margin-top: 1%; border-radius: 5px" type="submit">Zaloguj</button>
             <p style="margin-top: 10px">
                 Nie masz konta?
                 <a id="link" href="{% url 'register' %}">Rejestracja</a>
-                <a id="link" href="{% url 'password_reset' %}">Zmiana hasła</a>
+{#                <a id="link" href="{% url 'password_reset' %}">Zmiana hasła</a>#}
             </p>
         </form>
     </div>

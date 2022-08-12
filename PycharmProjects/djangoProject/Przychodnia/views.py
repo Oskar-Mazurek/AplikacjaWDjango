@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-
+from django.db import IntegrityError
 from . import forms
 from .forms import CustomerForm
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout
 
 
 # Create your views here.
@@ -18,8 +18,26 @@ def about(request):
     return render(request, 'about.html')
 
 
-def login(request):
-    return render(request, 'registration/login.html')
+def log(request):
+    if request.method == 'GET':
+        return render(request, 'registration/login.html', {'authenticationForm': AuthenticationForm(), })
+    else:
+        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        if user is not None:
+            # A backend authenticated the credentials
+            login(request, user)
+            messages.success(request, 'Udało się zalogować')
+            return redirect('homepage')
+        else:
+            # No backend authenticated the credentials
+            messages.error(request, 'Nie udało się zalogować, błędne dane logowania')
+            return render(request, 'registration/login.html', {'authenticationForm': AuthenticationForm(), })
+
+@login_required
+def logoutUser(request):
+    logout(request)
+    messages.error(request, 'Wylogowano')
+    return redirect('homepage')
 
 
 def register(request):
@@ -27,29 +45,36 @@ def register(request):
         return render(request, 'registration/register.html',
                       {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
     else:
-        userForm = UserCreationForm(request.POST)
+
         customerForm = CustomerForm(request.POST)
-        # if userForm.is_valid() and customerForm.is_valid():
-        checkUser = request.POST['username']
-        #coś nie zgadza się w if, is_valid jest chyba powodem
-        if request.POST['password1'] == request.POST['password2'] and userForm.is_valid() and customerForm.is_valid():
-            user = User.objects.create_user(request.POST['username'], request.POST['email'],
-                                            request.POST['password1'])  # tutaj brakuje porównania z bazą danych
-            messages.info(request, 'Pomyślnie zarejestrowano! Teraz zaloguj się')  # komunikat ze success
+
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                user = User.objects.create_user(request.POST['username'], request.POST['email'],
+                                                request.POST['password1'])
+            except IntegrityError:
+                messages.error(request,
+                               'Spróbuj ponownie. Podany użytkownik istnieje już w bazie, popraw formularz rejestracji')
+                return render(request, 'registration/register.html',
+                              {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
+            messages.success(request, 'Pomyślnie zarejestrowano! Teraz zaloguj się')  # komunikat ze success
             user.save()
+            if customerForm.is_valid():
+                customer = customerForm.save(commit=False)
+                customer.user = user
+                customer.save()
+                # return redirect login
+                redirect('homepage')
+            else:
+                messages.error(request, 'Błąd w formularzu!')  # komunikat z bledem
+                return render(request, 'registration/register.html',
+                              {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
         else:
-            messages.info(request, 'Błąd w formularzu!')  # komunikat z bledem
-        return render(request, 'registration/register.html',
-                      {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
-    # login(request, user)
-    # return redirect('homepage')  # komunikat ze success
-
-
-# else:
-# return render(request, 'registration/register.html',
-# {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
-# zwrocil  return render(request, 'registration/register.html', {'customerForm': CustomerForm(), 'userForm':UserCreationForm()})
-# komunikat z bledem
+            messages.error(request, 'Błąd w formularzu!')  # komunikat z bledem
+            return render(request, 'registration/register.html',
+                          {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
+    return render(request, 'registration/register.html',
+                  {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
 
 
 def contact(request):

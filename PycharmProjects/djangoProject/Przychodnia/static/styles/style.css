@@ -192,38 +192,49 @@ footer {
 }
 
 
-.info {
+.error {
+    color: red;
+    font-weight: bolder;
+    filter: brightness(200%);
+     font-weight: bolder;
+    text-decoration: none;
+    animation: blinkingText 2s infinite;
+}
+
+.success {
     color: green;
     font-weight: bolder;
     filter: brightness(200%);
     animation: blinkingText 2s infinite;
+    font-weight: bolder;
+    text-decoration: none;
 }
 
-@keyframes blinkingText {
-    0% {
-        color: white;
-    }
+/*@keyframes blinkingText {*/
+/*    0% {*/
+/*        color: white;*/
+/*    }*/
 
-    20% {
-        color: green;
-    }
+/*    20% {*/
+/*        color: green;*/
+/*    }*/
 
-    40% {
-        color: white;
-    }
+/*    40% {*/
+/*        color: white;*/
+/*    }*/
 
-    60% {
-        color: green;
-    }
+/*    60% {*/
+/*        color: green;*/
+/*    }*/
 
-    80% {
-        color: white;
-    }
+/*    80% {*/
+/*        color: white;*/
+/*    }*/
 
-    100% {
-        color: green;
-    }
-}
+/*    100% {*/
+/*        color: green;*/
+/*    }*/
+/*}*/
 
 /*tabele*/
 
