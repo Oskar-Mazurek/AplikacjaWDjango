@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import CustomerForm
+from .forms import CustomerForm, EditProfileForm
 from .models import *
 
 
@@ -86,27 +86,25 @@ def contact(request):
 
 
 @login_required
-def profil(request):
-    return render(request, 'profil.html')
+def profile(request):
+    user = get_object_or_404(User, pk=request.user.id)
+    customer = get_object_or_404(Customer, user=user)
+    return render(request, 'profile.html', {'user': user, 'customer': customer})
 
 
-@login_required
+@login_required  # brakuje rozróźnienia odnośnie tego czy osoba zalogowana jest lekarzem
 def wykazPacjentów(request):
     pacjenci = Customer.objects.filter(userType='PAT')
     return render(request, 'wykazPacjentów.html',
                   {'pacjenci': pacjenci})
 
 
+# baza mówi że lekarz może mieć tylko jedną specjalizację co jest niezgodne z założeniami bazy
 @login_required
 def wykazSpecjalistów(request):
-    specjaliści = Customer.objects.filter(userType='DOC')
-    # specjalizacja = LekarzSpecjalizacja.objects.all()
-    # s=Specjalizacje.objects.select_related('IdSpecjalizacji')
-    return render(request, 'wykazSpecjalistów.html',
-                  {'specjaliści': specjaliści, })
+    specjalizacje = SpecializationDoctor.objects.filter(doctor__userType='DOC')
+    return render(request, 'wykazSpecjalistów.html', {'specjalizacje': specjalizacje})
 
-
-# 'specjalizacja': specjalizacja
 
 @login_required
 def changePassword(request):
@@ -122,3 +120,19 @@ def changePassword(request):
         else:
             messages.error(request, 'Popraw błędy w formularzu.')
     return render(request, 'changePassword.html', {'form': passwordChangeForm})
+
+
+@login_required
+def editProfile(request):
+    customer = get_object_or_404(Customer, user=request.user)
+    if request.method == 'GET':
+        editProfileForm = EditProfileForm(instance=customer)
+    else:
+        editProfileForm = EditProfileForm(instance=customer, data=request.POST)
+        if editProfileForm.is_valid():
+            editProfileForm.save()
+            messages.success(request, 'Twoje dane zostały zmienione!')
+            return redirect('editProfile')
+        else:
+            messages.error(request, 'Popraw błędy w formularzu!')
+    return render(request, ' editProfile.html', {'form': editProfileForm})

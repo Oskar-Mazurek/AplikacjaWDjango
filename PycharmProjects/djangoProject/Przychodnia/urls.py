@@ -1,18 +1,20 @@
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('oPrzychodni/', views.about, name='about'),
     path('kontakt/', views.contact, name='contact'),
-    path('profil/', views.profil, name='profil'),
-    path('wykazPacjentów/', views.wykazPacjentów, name='wykazPacjentów'),
-    path('wykazSpecjalistów/', views.wykazSpecjalistów, name='wykazSpecjalistów'),
+    path('profil/', views.profile, name='profile'),
+    path('wykazPacjentow/', views.wykazPacjentów, name='wykazPacjentów'),
+    path('wykazSpecjalistow/', views.wykazSpecjalistów, name='wykazSpecjalistów'),
     # auth
     path('login/', views.log, name='login'),
     path('rejestracja/', views.register, name='register'),
     path('logout/', views.logoutUser, name='logout'),
-    path('zmianaHasła/', views.changePassword, name='changePassword')
+    path('zmianaHasla/', views.changePassword, name='changePassword'),
+    path('edycjaProfilu/', views.editProfile, name='editProfile'),
 ]
 # tak robi się klasowo
 # path('password_reset', PasswordResetView.as_view(), name='password_reset'),

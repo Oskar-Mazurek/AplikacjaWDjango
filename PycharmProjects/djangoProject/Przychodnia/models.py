@@ -16,6 +16,15 @@ class Customer(models.Model):
     city = models.CharField(max_length=40)
     zipCode = models.CharField(max_length=6)
 
+    def displayUserType(self):
+        if (self.userType == 'ADM'):
+            return "Administrator"
+        if (self.userType == 'DOC'):
+            return "Lekarz"
+        if (self.userType == 'PAT'):
+            return "Pacjent"
+
+
     def __str__(self):
         if (self.userType == 'ADM'):
             return "Nazwa użytkownika:" + str(self.user.username) + " Typu: Administrator"

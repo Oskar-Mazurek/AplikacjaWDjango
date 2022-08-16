@@ -3,8 +3,7 @@
 {% block title %}Profil{% endblock title %}
 
 {% block content %}
-{#    imię i nazwisko#}
-    <div id="header">Witaj {{ user.username }}</div>
+    <div id="header">Witaj {{ customer.name }} {{ customer.surname }}</div>
     <div style=" display: flex;
     justify-content: space-between;">
         <h2>Twoje dane</h2>
@@ -20,49 +19,48 @@
                 </tr>
                 <tr>
                     <td>Imię</td>
-                    <td>Oskar</td>
+                    <td>{{ customer.name }}</td>
                 </tr>
                 <tr>
                     <td>Nazwisko</td>
-                    <td>Mazurek</td>
+                    <td>{{ customer.surname }}</td>
                 </tr>
                 <tr>
                     <td>Pesel</td>
-                    <td>00222001595</td>
+                    <td>{{ customer.pesel }}</td>
                 </tr>
                 <tr>
                     <td>Numer telefonu</td>
-                    <td>691042000</td>
+                    <td>{{ customer.telephoneNumber }}</td>
                 </tr>
                 <tr>
                     <td>Ulica</td>
-                    <td>Wólka Podleśna 160b</td>
+                    <td>{{ customer.street }}</td>
                 </tr>
                 <tr>
                     <td>Miasto</td>
-                    <td>Jasionka</td>
+                    <td>{{ customer.city }}</td>
                 </tr>
                 <tr>
                     <td>Kod pocztowy</td>
-                    <td>36-002</td>
+                    <td>{{ customer.zipCode }}</td>
                 </tr>
                 <tr>
                     <td>Nazwa użytkownika</td>
-                    <td>OskarM</td>
+                    <td>{{ user.username }}</td>
                 </tr>
                 <tr>
                     <td>Hasło</td>
-                    <td>
-                        <button>Zmień</button>
+                    <td><a id="btn" href="{% url 'changePassword' %}">Zmień</a>
                     </td>
                 </tr>
                 <tr>
                     <td>Email</td>
-                    <td>168461@stud.prz.edu.pl</td>
+                    <td>{{ user.email }}</td>
                 </tr>
                 <tr>
                     <td>Typ użytkownika</td>
-                    <td>Pacjent</td>
+                    <td>{{ customer.displayUserType }}</td>
                 </tr>
             </table>
         </div>
@@ -119,8 +117,15 @@
             <div style="margin-left: 40%;"><a id="a" href="{% url 'contact' %}">
                 <button style=" width: 150.15px;" type="button">Kontakt</button>
             </a></div>
+            <div style="margin-left: 40%;"><a href="{% url 'changePassword' %}">
+                <button style=" width: 150.15px;" type="button">Zmiana hasła</button>
+            </a></div>
+            <div style="margin-left: 40%;"><a href="{% url 'editProfile' %}">
+                <button style=" width: 150.15px;" type="button">Edycja profilu</button>
+            </a></div>
         </div>
     </div>
+    <br>
 
     <script>
         function logout() {

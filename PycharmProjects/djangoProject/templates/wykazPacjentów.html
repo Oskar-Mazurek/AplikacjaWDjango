@@ -18,12 +18,12 @@
     {% for pacjent in pacjenci %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ pacjent.Imie }}</td>
-            <td>{{ pacjent.Nazwisko }}</td>
-            <td>{{ pacjent.Pesel }}</td>
-            <td>{{ pacjent.Ulica }}</td>
-            <td>{{ pacjent.Miasto }}</td>
-            <td>{{ pacjent.KodPocztowy }}</td>
+            <td>{{ pacjent.name }}</td>
+            <td>{{ pacjent.surname }}</td>
+            <td>{{ pacjent.pesel }}</td>
+            <td>{{ pacjent.street }}</td>
+            <td>{{ pacjent.city }}</td>
+            <td>{{ pacjent.zipCode }}</td>
         </tr>
     {% endfor %}
 

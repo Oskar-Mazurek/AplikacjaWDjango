@@ -3,24 +3,23 @@
 {% block title %}Wykaz specjalistów{% endblock title %}
 
 {% block content %}
-<h1 style="margin-left: 2%; margin-top: 3%">Wykaz specjalistów:</h1>
-<table>
-    <tr>
-        <th>Numer Specjalisty</th>
-        <th>Imię</th>
-        <th>Nazwisko</th>
-        <th>Specjalizacja</th>
-    </tr>
-
-    {% for lekarz in specjaliści %}
+    <h1 style="margin-left: 2%; margin-top: 3%">Wykaz specjalistów:</h1>
+    <table>
         <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ lekarz.Imie }}</td>
-            <td>{{ lekarz.Nazwisko }}</td>
-            <td>{{ specjalizacja.IdSpecjalizacji }}</td>
-            {#            specjalizacja#}
+            <th style="margin-right:0 ">Numer Specjalisty</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Specjalizacja</th>
         </tr>
-    {% endfor %}
 
-</table>
+        {% for lekarz in specjalizacje %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ lekarz.doctor.name }}</td>
+                <td>{{ lekarz.doctor.surname }}</td>
+                <td>{{ lekarz.specializations }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
 {% endblock content %}

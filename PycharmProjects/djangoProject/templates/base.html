@@ -20,7 +20,7 @@
         <li id="li"><a id="a" href="{% url 'contact' %}">Kontakt</a></li>
         {% if user.is_authenticated %}
             <li id="li" style="float:right"><a id="a" href="{% url 'logout' %}">Wyloguj</a></li>
-            <li id="li" style="float:right"><a id="a" href="{% url 'profil' %}">Profil</a></li>
+            <li id="li" style="float:right"><a id="a" href="{% url 'profile' %}">Profil</a></li>
             <li id="li" style="float:right"><a id="a" href="{% url 'wykazPacjentów' %}">Wykaz
                 pacjentów</a></li>
             <li id="li" style="float:right"><a id="a" href="{% url 'wykazSpecjalistów' %}">Wykaz
@@ -38,14 +38,15 @@
     </ul>
 </header>
 <aside style="float: right">
-{% if user.is_authenticated %}
-    <div>
-        <br>
-        <br>
-        <br>
-        <a id="btn" href="{% url 'changePassword' %}">Zmiana hasła</a>
-    </div>
-{% endif %}
+{#    {% if user.is_authenticated %}#}
+{#        <div>#}
+{#            <br>#}
+{#            <br>#}
+{#            <br>#}
+{#            <a id="btn" href="{% url 'changePassword' %}">Zmiana hasła</a>#}
+{#            <a id="btn" href="{% url 'editProfile' %}">Edycja profilu</a>#}
+{#        </div>#}
+{#    {% endif %}#}
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}

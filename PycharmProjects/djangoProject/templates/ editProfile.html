@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Edycja profilu{% endblock title %}
+
+{% block content %}
+    <div class="main">
+        <h1 id="nagłówek" style="margin-top: 100px">Edycja profilu</h1>
+        <h1 id="nagłówek">Zmień poniższe pola</h1>
+        <div class="center">
+            <form method="post" action="{% url 'editProfile' %}">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <button type="submit" style="border-radius: 5px; margin-top: 2px">Zatwierdź zmianę</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
