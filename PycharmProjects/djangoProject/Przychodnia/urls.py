@@ -7,8 +7,8 @@ urlpatterns = [
     path('oPrzychodni/', views.about, name='about'),
     path('kontakt/', views.contact, name='contact'),
     path('profil/', views.profile, name='profile'),
-    path('wykazPacjentow/', views.wykazPacjentów, name='wykazPacjentów'),
-    path('wykazSpecjalistow/', views.wykazSpecjalistów, name='wykazSpecjalistów'),
+    path('wykazPacjentow/', views.patientsList, name='patientsList'),
+    path('wykazSpecjalistow/', views.doctorsList, name='doctorsList'),
     # auth
     path('login/', views.log, name='login'),
     path('rejestracja/', views.register, name='register'),

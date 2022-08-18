@@ -93,17 +93,19 @@ def profile(request):
 
 
 @login_required  # brakuje rozróźnienia odnośnie tego czy osoba zalogowana jest lekarzem
-def wykazPacjentów(request):
-    pacjenci = Customer.objects.filter(userType='PAT')
-    return render(request, 'wykazPacjentów.html',
-                  {'pacjenci': pacjenci})
+def patientsList(request):
+    reqUserType = get_object_or_404(Customer, user=request.user, userType='DOC')
+    if reqUserType:
+        patients = Customer.objects.filter(userType='PAT')
+        return render(request, 'patientsList.html',
+                      {'patients': patients})
 
 
 # baza mówi że lekarz może mieć tylko jedną specjalizację co jest niezgodne z założeniami bazy
 @login_required
-def wykazSpecjalistów(request):
-    specjalizacje = SpecializationDoctor.objects.filter(doctor__userType='DOC')
-    return render(request, 'wykazSpecjalistów.html', {'specjalizacje': specjalizacje})
+def doctorsList(request):
+    specializations = SpecializationDoctor.objects.filter(doctor__userType='DOC').order_by('specializations')
+    return render(request, 'doctorsList.html', {'specializations': specializations})
 
 
 @login_required

@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 
 # Create your models here.
@@ -8,10 +8,10 @@ class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     USER_TYPES = (('ADM', 'Administrator'), ('DOC', 'Lekarz'), ('PAT', 'Pacjent'))
     userType = models.CharField(max_length=3, choices=USER_TYPES, default='PAT')
-    pesel = models.IntegerField(max_length=11, unique=True)
+    pesel = models.IntegerField(unique=True)
     name = models.CharField(max_length=20)
     surname = models.CharField(max_length=40)
-    telephoneNumber = models.IntegerField(max_length=20, blank=True)
+    telephoneNumber = models.IntegerField(blank=True)
     street = models.CharField(max_length=40)
     city = models.CharField(max_length=40)
     zipCode = models.CharField(max_length=6)
@@ -23,7 +23,6 @@ class Customer(models.Model):
             return "Lekarz"
         if (self.userType == 'PAT'):
             return "Pacjent"
-
 
     def __str__(self):
         if (self.userType == 'ADM'):
@@ -65,7 +64,7 @@ class Specialization(models.Model):
 
 
 class SpecializationDoctor(models.Model):
-    doctor = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Customer, on_delete=models.CASCADE)
     specializations = models.ForeignKey(Specialization, on_delete=models.CASCADE)
 
     def __str__(self):

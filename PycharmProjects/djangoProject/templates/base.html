@@ -21,9 +21,11 @@
         {% if user.is_authenticated %}
             <li id="li" style="float:right"><a id="a" href="{% url 'logout' %}">Wyloguj</a></li>
             <li id="li" style="float:right"><a id="a" href="{% url 'profile' %}">Profil</a></li>
-            <li id="li" style="float:right"><a id="a" href="{% url 'wykazPacjentów' %}">Wykaz
+            {% if user.customer.userType == 'DOC' %}
+            <li id="li" style="float:right"><a id="a" href="{% url 'patientsList' %}">Wykaz
                 pacjentów</a></li>
-            <li id="li" style="float:right"><a id="a" href="{% url 'wykazSpecjalistów' %}">Wykaz
+            {% endif %}
+            <li id="li" style="float:right"><a id="a" href="{% url 'doctorsList' %}">Wykaz
                 specjalistów</a></li>
         {% endif %}
         {% if not user.is_authenticated %}
@@ -38,15 +40,6 @@
     </ul>
 </header>
 <aside style="float: right">
-{#    {% if user.is_authenticated %}#}
-{#        <div>#}
-{#            <br>#}
-{#            <br>#}
-{#            <br>#}
-{#            <a id="btn" href="{% url 'changePassword' %}">Zmiana hasła</a>#}
-{#            <a id="btn" href="{% url 'editProfile' %}">Edycja profilu</a>#}
-{#        </div>#}
-{#    {% endif %}#}
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}

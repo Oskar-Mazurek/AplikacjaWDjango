@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Wykaz pacjentów{% endblock title %}
+
+{% block content %}
+    <h1 style="margin-left: 2%; margin-top: 3%">Wykaz pacjentów:</h1>
+    <table>
+        <tr>
+            <th>Numer pacjenta</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Pesel</th>
+            <th>Ulica</th>
+            <th>Miasto</th>
+            <th>Kod Pocztowy</th>
+        </tr>
+
+        {% for patient in patients %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ patient.name }}</td>
+                <td>{{ patient.surname }}</td>
+                <td>{{ patient.pesel }}</td>
+                <td>{{ patient.street }}</td>
+                <td>{{ patient.city }}</td>
+                <td>{{ patient.zipCode }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+{% endblock content %}
