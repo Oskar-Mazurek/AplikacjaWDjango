@@ -62,9 +62,13 @@
                     <td>Typ użytkownika</td>
                     <td>{{ customer.displayUserType }}</td>
                 </tr>
+                <tr>
+                    <td>Data dołączenia</td>
+                    <td>{{ user.date_joined }}</td>
+                </tr>
             </table>
         </div>
-        <div class="column">
+        <div class="column" style="margin-bottom: 10vh">
             <table>
                 <tr>
                     <th>Numer wizyty</th>
@@ -110,18 +114,23 @@
                     </td>
                 </tr>
             </table>
-            <button style="margin-left: 40%; margin-top: 10%" onclick="zapisNaWizytę()">Zapisz się na wizytę</button>
+            <a style="text-decoration: none;" id="a" href="{% url 'doctorsList' %}">
+                <button style="margin-left: 40%; margin-top: 5%; border-radius: 5px" onclick="zapisNaWizyte()">
+                    Zapisz się na wizytę
+                </button>
+            </a>
             <a id="a" href="{% url 'logout' %}">
-                <button style="margin-left: 40%; width: 150.15px;" onclick="logout()">Wyloguj</button>
+                <button style="margin-left: 40%; width: 150.15px;  border-radius: 5px" onclick="logout()">Wyloguj
+                </button>
             </a>
             <div style="margin-left: 40%;"><a id="a" href="{% url 'contact' %}">
-                <button style=" width: 150.15px;" type="button">Kontakt</button>
+                <button style=" width: 150.15px;  border-radius: 5px" type="button">Kontakt</button>
             </a></div>
             <div style="margin-left: 40%;"><a href="{% url 'changePassword' %}">
-                <button style=" width: 150.15px;" type="button">Zmiana hasła</button>
+                <button style=" width: 150.15px;  border-radius: 5px" type="button">Zmiana hasła</button>
             </a></div>
             <div style="margin-left: 40%;"><a href="{% url 'editProfile' %}">
-                <button style=" width: 150.15px;" type="button">Edycja profilu</button>
+                <button style=" width: 150.15px;  border-radius: 5px" type="button">Edycja profilu</button>
             </a></div>
         </div>
     </div>
@@ -132,7 +141,7 @@
             console.log("Wylogowywanie");
         }
 
-        function zapisNaWizytę() {
+        function zapisNaWizyte() {
             console.log("Zapis na wizytę");
         }
     </script>

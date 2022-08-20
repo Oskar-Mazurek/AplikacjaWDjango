@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 {% load bootstrap %}
-{% block title %}Wykaz specjalistów{% endblock title %}
+{% block title %}Spis specjalizacji{% endblock title %}
 
 {% block content %}
-    <h1 style="margin-left: 2%; margin-top: 3%">Wykaz specjalistów:</h1>
+    <h1 id="nagłówek">Spis specjalizacji:</h1>
     <table>
         <tr>
-            <th style="margin-right:0 ">Numer Specjalisty</th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Specjalizacja</th>
+            <th>Numer Specjalizacji</th>
+            <th>Nazwa specjalizacji</th>
+            <th></th>
         </tr>
 
-        {% for doctor in specializations %}
+        {% for specialization in specializations %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ doctor.doctor.name }}</td>
-                <td>{{ doctor.doctor.surname }}</td>
-                <td>{{ doctor.specializations }}</td>
+                <td>{{ specialization }}</td>
+                <td>
+                    <a href="{% url 'showAvailableTerms' %}"><button class="button">Pokaż terminy</button></a>
+                </td>
             </tr>
         {% endfor %}
 

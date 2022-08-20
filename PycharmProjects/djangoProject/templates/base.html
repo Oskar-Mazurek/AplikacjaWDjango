@@ -11,7 +11,7 @@
 
     <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
 </head>
-<body>
+<body onload="initClock()">
 <!--Pasek nawigacji-->
 
 <header>
@@ -22,11 +22,10 @@
             <li id="li" style="float:right"><a id="a" href="{% url 'logout' %}">Wyloguj</a></li>
             <li id="li" style="float:right"><a id="a" href="{% url 'profile' %}">Profil</a></li>
             {% if user.customer.userType == 'DOC' %}
-            <li id="li" style="float:right"><a id="a" href="{% url 'patientsList' %}">Wykaz
-                pacjentów</a></li>
+                <li id="li" style="float:right"><a id="a" href="{% url 'patientsList' %}">Wykaz
+                    pacjentów</a></li>
             {% endif %}
-            <li id="li" style="float:right"><a id="a" href="{% url 'doctorsList' %}">Wykaz
-                specjalistów</a></li>
+            <li id="li" style="float:right"><a id="a" href="{% url 'doctorsList' %}">Spis specjalizacji</a></li>
         {% endif %}
         {% if not user.is_authenticated %}
             <li id="li" style="float:right"><a id="a" href="{% url 'register' %}">Rejestracja</a>
@@ -40,6 +39,22 @@
     </ul>
 </header>
 <aside style="float: right">
+    <!--digital clock start-->
+    <div style="margin-top: 10vh; margin-right: 1vw" class="datetime">
+        <div class="date">
+            <span id="dayname">Day</span>,
+            <span id="month">Month</span>
+            <span id="daynum">00</span>,
+            <span id="year">Year</span>
+        </div>
+        <div class="time">
+            <span id="hour">00</span>:
+            <span id="minutes">00</span>:
+            <span id="seconds">00</span>
+            <span id="period">AM</span>
+        </div>
+    </div>
+    <!--digital clock end-->
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -55,5 +70,39 @@
 <footer>
     <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
 </footer>
+<script type="text/javascript">
+    function updateClock() {
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds()
+
+        if (hou == 0) {
+            hou = 12;
+        }
+
+        Number.prototype.pad = function (digits) {
+            for (var n = this.toString(); n.length < digits; n = 0 + n) ;
+            return n;
+        }
+
+        var months = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień",
+            "Wrzesień", "Październik", "Listopad", "Grudzień"];
+        var week = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
+        var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+        var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2)];
+        for (var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+    }
+
+    function initClock() {
+        updateClock();
+        window.setInterval("updateClock()", 1);
+    }
+</script>
 </body>
 </html>

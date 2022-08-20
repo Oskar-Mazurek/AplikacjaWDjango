@@ -36,7 +36,8 @@ class Customer(models.Model):
 class Term(models.Model):
     date = models.DateTimeField()
     taken = models.BooleanField(default=False)
-    doctor = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    room = models.CharField(max_length=6, null=True, blank=True)
 
     def __str__(self):
         if (self.taken == 1):

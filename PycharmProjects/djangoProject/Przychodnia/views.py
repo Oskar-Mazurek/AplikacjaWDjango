@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth import update_session_auth_hash
@@ -92,7 +94,7 @@ def profile(request):
     return render(request, 'profile.html', {'user': user, 'customer': customer})
 
 
-@login_required  # brakuje rozróźnienia odnośnie tego czy osoba zalogowana jest lekarzem
+@login_required
 def patientsList(request):
     reqUserType = get_object_or_404(Customer, user=request.user, userType='DOC')
     if reqUserType:
@@ -101,11 +103,18 @@ def patientsList(request):
                       {'patients': patients})
 
 
-# baza mówi że lekarz może mieć tylko jedną specjalizację co jest niezgodne z założeniami bazy
+# jeszcze trochę tutaj trzeba dorobić ale jest bliżej niż dalej :D
 @login_required
 def doctorsList(request):
-    specializations = SpecializationDoctor.objects.filter(doctor__userType='DOC').order_by('specializations')
+    specializations = Specialization.objects.all().order_by('name')
     return render(request, 'doctorsList.html', {'specializations': specializations})
+
+
+@login_required
+def showAvailableTerms(request):
+    today = date.today()
+    terms = Term.objects.filter(taken=False, date__gte=today).order_by('date')
+    return render(request, 'showAvailableTerms.html', {'terms': terms})
 
 
 @login_required

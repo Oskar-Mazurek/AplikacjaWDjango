@@ -14,6 +14,7 @@ header {
 html {
     background-color: paleturquoise;
     -webkit-text-stroke: 0.5px black;
+    background-size: cover;
 }
 
 #ul {
@@ -89,6 +90,7 @@ li:last-child {
     text-align: center;
     margin-left: -50px;
     margin-top: 50px;
+    background-color: #a6eea6;
 }
 
 .center {
@@ -292,8 +294,9 @@ footer {
 table {
     border-collapse: collapse;
     border-spacing: 0;
-    width: 100%;
+    width: 75%;
     border: 1px solid #96e796;
+    margin-bottom: 10vh;
 }
 
 th {
@@ -310,8 +313,105 @@ tr:nth-child(odd) {
     background-color: #96e796;
 }
 
-/* div, h1 {
-    background-color: #a6eea6;
-    outline-color: green;
-    box-shadow: #96e796;
-} */
+@media only screen and (max-width: 1000px) {
+    #nagłówek {
+        color: white !important;
+        padding-top: 10px;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin-left: -50px;
+        margin-top: 150px;
+        background-color: #a6eea6;
+    }
+
+    #content-main {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5vh;
+        display: block;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 25px;
+    /*font-size: 14px;*/
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    font-weight: bolder;
+}
+
+.button:hover {
+    background-color: #3e8e41
+}
+
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.datetime {
+    color: #fff;
+    background: #10101E;
+    font-family: "Segoe UI", sans-serif;
+    width: 340px;
+    padding: 15px 10px;
+    border: 3px solid #2E94E3;
+    border-radius: 5px;
+    -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(255, 255, 255, 0.1));
+    transition: 0.5s;
+    transition-property: background, box-shadow;
+    /*position: absolute;*/
+}
+
+.datetime:hover {
+    background: #2E94E3;
+    box-shadow: 0 0 30px #2E94E3;
+}
+
+.date {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.time {
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.time span:not(:last-child) {
+    position: relative;
+    margin: 0 6px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.time span:last-child {
+    background: #2E94E3;
+    font-size: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 10px;
+    padding: 0 5px;
+    border-radius: 3px;
+}

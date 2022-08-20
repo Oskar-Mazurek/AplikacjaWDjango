@@ -9,7 +9,8 @@
         </br>
         {% load static %}
         <div id="content-main" style="background-image: url('{% static "img/lekarze.jpg" %}');
-                background-repeat: no-repeat;">
+                background-repeat: no-repeat;
+                background-size: contain;">
             <p id="nazwa">Witamy w systemie rejestracji do Specjalistycznej Poradni Psychologiczno-Pedagogicznej
                 ISTMUS</p>
             {% if user.is_authenticated %}

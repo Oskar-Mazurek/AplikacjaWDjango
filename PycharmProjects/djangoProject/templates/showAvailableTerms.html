@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Dostępne terminy{% endblock title %}
+
+{% block content %}
+    <h1 id="nagłówek">Dostępne terminy:</h1>
+    <table>
+        <tr>
+            <th>Numer Specjalisty</th>
+            <th>Termin</th>
+            <th>Specjalizacja</th>
+            <th>Imię i nazwisko lekarza</th>
+             <th>Pokój</th>
+            <th></th>
+        </tr>
+
+        {% for term in terms %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ term.date }}</td>
+                <td>{{ term.doctor.specializationdoctor_set.name }}</td>
+                <td>{{ term.doctor.name }} {{ term.doctor.surname }}</td>
+                <td>{{ term.room }}</td>
+                <td>
+                    <button class="button">Zapisz się</button>
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+{% endblock content %}
