@@ -41,9 +41,9 @@ class Term(models.Model):
 
     def __str__(self):
         if (self.taken == 1):
-            return "Termin: " + str(self.date) + " Zajęty"
+            return "ID:" + str(self.pk) + " Termin: " + str(self.date) + " Zajęty"
         if (self.taken == 0):
-            return "Termin: " + str(self.date) + " Wolny"
+            return "ID:" + str(self.pk) + " Termin: " + str(self.date) + " Wolny"
 
 
 class Visit(models.Model):
@@ -52,9 +52,9 @@ class Visit(models.Model):
     term = models.OneToOneField(Term, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Pacjent: {self.patient.name} {self.patient.surname} " \
-               f"Lekarz: {self.term.doctor.name} {self.term.doctor.surname}  " \
-               f"Data: {self.term.date}"
+        return "ID:" + str(self.pk) + f" Pacjent: {self.patient.name} {self.patient.surname} " \
+                                      f"Lekarz: {self.term.doctor.name} {self.term.doctor.surname}  " \
+                                      f"Data: {self.term.date}"
 
 
 class Specialization(models.Model):

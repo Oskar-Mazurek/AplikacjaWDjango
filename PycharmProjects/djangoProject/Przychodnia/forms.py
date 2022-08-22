@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import Customer, SpecializationDoctor
+from .models import Customer, SpecializationDoctor, Term
 
 
 class CustomerForm(ModelForm):
@@ -36,8 +36,16 @@ class EditProfileForm(ModelForm):
 
 
 class SpecializationDoctorForm(ModelForm):
-    doctor = forms.ModelChoiceField(queryset=Customer.objects.filter(userType='DOC'), empty_label='------')
+    doctor = forms.ModelChoiceField(queryset=Customer.objects.filter(userType='DOC'), empty_label='----------')
 
     class Meta:
         model = SpecializationDoctor
         fields = ('doctor', 'specializations')
+
+
+class TermForm(ModelForm):
+    doctor = forms.ModelChoiceField(queryset=Customer.objects.filter(userType='DOC'), empty_label='---------')
+
+    class Meta:
+        model = Term
+        fields = ('date', 'taken', 'doctor', 'room')

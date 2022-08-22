@@ -9,10 +9,11 @@
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 {{ authenticationForm|bootstrap }}
-                <button style="margin-top: 1%; border-radius: 5px" type="submit">Zaloguj</button>
+                <button style="margin-top: 1%; border-radius: 5px; color: black" class="btn btn-success" type="submit">Zaloguj
+                </button>
                 <p style="margin-top: 10px">
                     Nie masz konta?
-                    <a id="link" href="{% url 'register' %}">Rejestracja</a>
+                    <a href="{% url 'register' %}" class="btn btn-info">Rejestracja</a>
                     {#                <a id="link" href="{% url 'password_reset' %}">Zmiana hasła</a>#}
                 </p>
             </form>

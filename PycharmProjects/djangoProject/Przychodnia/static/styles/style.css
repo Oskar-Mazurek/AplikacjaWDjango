@@ -337,6 +337,12 @@ tr:nth-child(odd) {
         width: 100vw;
         height: 100vh;
     }
+    .datetime{
+        display: none;
+    }
+    #header{
+        margin-top: 114px;
+    }
 }
 
 .button {
@@ -415,3 +421,16 @@ tr:nth-child(odd) {
     padding: 0 5px;
     border-radius: 3px;
 }
+
+textarea {
+    border-radius: 5px;
+    width: 100%;
+    height: 10vh;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+

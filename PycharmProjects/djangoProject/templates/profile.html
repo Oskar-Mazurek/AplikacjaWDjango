@@ -9,7 +9,34 @@
         <h2>Twoje dane</h2>
         <h2 style="margin-right:38%">Twoje wizyty</h2>
     </div>
-
+    <aside style="float: right; margin-right: -340px; margin-top: 186px">
+        <a style="text-decoration: none;" id="a" href="{% url 'doctorsList' %}">
+            <button class="btn btn-info" style="margin-left: 40%; margin-top: 5%; border-radius: 5px"
+                    onclick="zapisNaWizyte()">
+                Zapisz się na wizytę
+            </button>
+        </a>
+        <a id="a" href="{% url 'logout' %}">
+            <button class="btn btn-info" style="margin-left: 40%; width: 150.15px;  border-radius: 5px; margin-top: 2px"
+                    onclick="logout()">Wyloguj
+            </button>
+        </a>
+        <div style="margin-left: 40%;"><a id="a" href="{% url 'contact' %}">
+            <button class="btn btn-info" style=" width: 150.15px;  border-radius: 5px; margin-top: 2px" type="button">
+                Kontakt
+            </button>
+        </a></div>
+        <div style="margin-left: 40%;"><a href="{% url 'changePassword' %}">
+            <button class="btn btn-info" style=" width: 150.15px;  border-radius: 5px; margin-top: 2px" type="button">
+                Zmiana hasła
+            </button>
+        </a></div>
+        <div style="margin-left: 40%;"><a href="{% url 'editProfile' %}">
+            <button class="btn btn-info" style=" width: 150.15px;  border-radius: 5px; margin-top: 2px" type="button">
+                Edycja profilu
+            </button>
+        </a></div>
+    </aside>
     <div class="row" style="margin-bottom: 10px">
         <div class="column">
             <table>
@@ -51,7 +78,7 @@
                 </tr>
                 <tr>
                     <td>Hasło</td>
-                    <td><a id="btn" href="{% url 'changePassword' %}">Zmień</a>
+                    <td><a class="btn btn-info" href="{% url 'changePassword' %}">Zmień</a>
                     </td>
                 </tr>
                 <tr>
@@ -75,63 +102,25 @@
                     <th>Lekarz</th>
                     <th>Cel wizyty</th>
                     <th>Termin</th>
-                    <th>Odwołaj</th>
+                    <th></th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Pediatra</td>
-                    <td>Przeziębienie</td>
-                    <td>20.11.2022 11:15</td>
-                    <td>
-                        <button>Odwołaj</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Alergolog</td>
-                    <td>Testy skórne</td>
-                    <td>23.11.2022 12:25</td>
-                    <td>
-                        <button>Odwołaj</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Reumatolog</td>
-                    <td>Ból pleców</td>
-                    <td>5.12.2022 13:15</td>
-                    <td>
-                        <button>Odwołaj</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Okulista</td>
-                    <td>Badanie wzroku</td>
-                    <td>7.12.2022 13:00</td>
-                    <td>
-                        <button>Odwołaj</button>
-                    </td>
-                </tr>
+                {% for visit in visits %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ visit.term.doctor.name }} {{ visit.term.doctor.surname }}
+                            {#                            specjalizacja#}</td>
+                        <td>{{ visit.purpose }}</td>
+                        <td>{{ visit.term.date }}</td>
+                        <td>
+                            <a href="{% url 'cancelVisit' visit.pk %}">
+                                <button class="btn btn-danger" style="color: black">Odwołaj</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
             </table>
-            <a style="text-decoration: none;" id="a" href="{% url 'doctorsList' %}">
-                <button style="margin-left: 40%; margin-top: 5%; border-radius: 5px" onclick="zapisNaWizyte()">
-                    Zapisz się na wizytę
-                </button>
-            </a>
-            <a id="a" href="{% url 'logout' %}">
-                <button style="margin-left: 40%; width: 150.15px;  border-radius: 5px" onclick="logout()">Wyloguj
-                </button>
-            </a>
-            <div style="margin-left: 40%;"><a id="a" href="{% url 'contact' %}">
-                <button style=" width: 150.15px;  border-radius: 5px" type="button">Kontakt</button>
-            </a></div>
-            <div style="margin-left: 40%;"><a href="{% url 'changePassword' %}">
-                <button style=" width: 150.15px;  border-radius: 5px" type="button">Zmiana hasła</button>
-            </a></div>
-            <div style="margin-left: 40%;"><a href="{% url 'editProfile' %}">
-                <button style=" width: 150.15px;  border-radius: 5px" type="button">Edycja profilu</button>
-            </a></div>
+
         </div>
     </div>
     <br>

@@ -91,7 +91,10 @@ def contact(request):
 def profile(request):
     user = get_object_or_404(User, pk=request.user.id)
     customer = get_object_or_404(Customer, user=user)
-    return render(request, 'profile.html', {'user': user, 'customer': customer})
+    today = date.today()
+    visits = Visit.objects.filter(patient=customer, term__date__gte=today).order_by('term__date')
+    # specDoctors = SpecializationDoctor.objects.filter() brakuje specjalizacji
+    return render(request, 'profile.html', {'user': user, 'customer': customer, 'visits': visits})
 
 
 @login_required
@@ -172,3 +175,21 @@ def editProfile(request):
         else:
             messages.error(request, 'Popraw błędy w formularzu!')
     return render(request, ' editProfile.html', {'form': editProfileForm})
+
+
+def cancelVisit(request, visitId):
+    visit = get_object_or_404(Visit, pk=visitId)
+    termID = visit.term.pk
+    term = get_object_or_404(Term, pk=termID)
+    doctorID = term.doctor.pk
+    doctor = get_object_or_404(Customer, pk=doctorID)
+    # specDoc = get_object_or_404(SpecializationDoctor, doctor=doctor)
+    # jak wypisać specjalizację lekarza dla określonej wizyty
+    if request.method == 'POST':
+        term.taken = False
+        term.save()
+        visit.delete()
+        messages.success(request, 'Usunięto wizytę' + str(visitId))
+        return redirect('profile')
+    return render(request, 'cancelVisit.html', {'visit': visit})
+    # return render(request, 'cancelVisit.html', {'visit': visit, 'specDoc': specDoc})

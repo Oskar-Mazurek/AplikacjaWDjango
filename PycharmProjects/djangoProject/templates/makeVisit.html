@@ -3,10 +3,17 @@
 {% block title %}Zapisz się na wizytę{% endblock title %}
 
 {% block content %}
-    <h1 id="nagłówek">Wpisz cel wizyty</h1>
-    <form method="post" action="{% url 'makeVisit' termId %}">
-        {% csrf_token %}
-        <textarea name="purpose" required></textarea>
-        <button type="submit">Utwórz wizytę</button>
-    </form>
+
+    <div class="main">
+        <h1 id="nagłówek">Wpisz cel wizyty</h1>
+        <div class="center">
+            <form method="post" action="{% url 'makeVisit' termId %}">
+                {% csrf_token %}
+                <div style="margin: 5px;">
+                 <textarea name="purpose" placeholder="Cel twojej wizyty..." required autofocus></textarea>
+                </div>
+                <button type="submit" class="button">Utwórz wizytę</button>
+            </form>
+        </div>
+    </div>
 {% endblock content %}

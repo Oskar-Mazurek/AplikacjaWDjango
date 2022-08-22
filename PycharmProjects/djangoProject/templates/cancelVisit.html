@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Odwołaj wizytę{% endblock title %}
+
+{% block content %}
+
+    <div class="main">
+        <h1 id="nagłówek">Czy na pewno chcesz odwołać swoją wizytę?</h1>
+        <div class="center">
+            <form method="post">
+                {% csrf_token %}
+                <h3 style="font-weight: bolder">Dane wizyty:</h3>
+                <h4>{{ visit.term.doctor.name }} {{ visit.term.doctor.surname }}</h4>
+{#                <h4>{{ specDoc.specializations.name }}</h4>#}
+                <h4>{{ visit.term.date }}</h4>
+                <button type="submit" style="color: black" class="btn btn-danger">Usuń wizytę</button>
+                <a href="{% url 'profile' %}">
+                    <button type="button" style="color: black" class="btn btn-info">Wróć</button>
+                </a>
+            </form>
+
+        </div>
+    </div>
+{% endblock content %}
