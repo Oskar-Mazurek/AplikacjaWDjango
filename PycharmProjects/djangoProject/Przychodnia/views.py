@@ -103,18 +103,43 @@ def patientsList(request):
                       {'patients': patients})
 
 
-# jeszcze trochę tutaj trzeba dorobić ale jest bliżej niż dalej :D
 @login_required
 def doctorsList(request):
     specializations = Specialization.objects.all().order_by('name')
     return render(request, 'doctorsList.html', {'specializations': specializations})
 
 
+# data, specjalizacje, imie, nazwisko, pokoj
 @login_required
-def showAvailableTerms(request):
+def showAvailableTerms(request, specialization):
+    spec = get_object_or_404(Specialization, name=specialization)
+    specDoctors = SpecializationDoctor.objects.filter(specializations=spec)
     today = date.today()
-    terms = Term.objects.filter(taken=False, date__gte=today).order_by('date')
-    return render(request, 'showAvailableTerms.html', {'terms': terms})
+    for specDoctor in specDoctors:
+        specTerms = Term.objects.filter(taken=False, doctor=specDoctor.doctor, date__gte=today).order_by('date')
+        try:
+            terms = terms | specTerms
+        except:
+            terms = specTerms
+    # terms = Term.objects.filter(taken=False, date__gte=today).order_by('date')
+    # lista = queryset1 | queryset2
+    return render(request, 'showAvailableTerms.html', {'terms': terms, 'specialization': specialization})
+
+
+def makeVisit(request, termId):
+    if request.method == 'GET':
+        return render(request, 'makeVisit.html', {'termId': termId})
+
+    else:
+        pat = get_object_or_404(Customer, user=request.user)
+        purpose = request.POST['purpose']
+        term = get_object_or_404(Term, pk=termId)
+        visit = Visit.objects.create(patient=pat, purpose=purpose, term=term)
+        visit.save()
+        term.taken = True
+        term.save()
+        messages.success(request, 'Utworzono wizytę')
+        return redirect('profile')
 
 
 @login_required

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Zapisz się na wizytę{% endblock title %}
+
+{% block content %}
+    <h1 id="nagłówek">Wpisz cel wizyty</h1>
+    <form method="post" action="{% url 'makeVisit' termId %}">
+        {% csrf_token %}
+        <textarea name="purpose" required></textarea>
+        <button type="submit">Utwórz wizytę</button>
+    </form>
+{% endblock content %}

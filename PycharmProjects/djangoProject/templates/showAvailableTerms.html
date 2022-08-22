@@ -3,14 +3,13 @@
 {% block title %}Dostępne terminy{% endblock title %}
 
 {% block content %}
-    <h1 id="nagłówek">Dostępne terminy:</h1>
+    <h1 id="nagłówek">Dostępne terminy dla {{ specialization }}:</h1>
     <table>
         <tr>
             <th>Numer Specjalisty</th>
             <th>Termin</th>
-            <th>Specjalizacja</th>
             <th>Imię i nazwisko lekarza</th>
-             <th>Pokój</th>
+            <th>Pokój</th>
             <th></th>
         </tr>
 
@@ -18,14 +17,12 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ term.date }}</td>
-                <td>{{ term.doctor.specializationdoctor_set.name }}</td>
                 <td>{{ term.doctor.name }} {{ term.doctor.surname }}</td>
                 <td>{{ term.room }}</td>
                 <td>
-                    <button class="button">Zapisz się</button>
+                    <a href="{% url 'makeVisit' term.id %}"><button class="button">Zapisz się</button></a>
                 </td>
             </tr>
         {% endfor %}
-
     </table>
 {% endblock content %}

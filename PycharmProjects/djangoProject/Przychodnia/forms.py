@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import Customer
+from .models import Customer, SpecializationDoctor
 
 
 class CustomerForm(ModelForm):
@@ -33,3 +33,11 @@ class EditProfileForm(ModelForm):
             'city': 'Miasto',
             'zipCode': 'Kod pocztowy'
         }
+
+
+class SpecializationDoctorForm(ModelForm):
+    doctor = forms.ModelChoiceField(queryset=Customer.objects.filter(userType='DOC'), empty_label='------')
+
+    class Meta:
+        model = SpecializationDoctor
+        fields = ('doctor', 'specializations')

@@ -9,8 +9,8 @@ urlpatterns = [
     path('profil/', views.profile, name='profile'),
     path('wykazPacjentow/', views.patientsList, name='patientsList'),
     path('spisSpecjalizacji/', views.doctorsList, name='doctorsList'),
-    # path('spisSpecjalizacji/dostepneTerminy/<int:doctor>', views.complete, name='complete'),
-    path('spisSpecjalizacji/dostepneTerminy/', views.showAvailableTerms, name='showAvailableTerms'),
+    path('spisSpecjalizacji/dostepneTerminy/<str:specialization>/', views.showAvailableTerms, name='showAvailableTerms'),
+    path('spisSpecjalizacji/dostepneTerminy/zapiszSieNaWizyte/<int:termId>/', views.makeVisit, name='makeVisit'),
 
     # auth
     path('login/', views.log, name='login'),

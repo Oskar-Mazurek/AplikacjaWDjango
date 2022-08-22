@@ -16,7 +16,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ specialization }}</td>
                 <td>
-                    <a href="{% url 'showAvailableTerms' %}"><button class="button">Pokaż terminy</button></a>
+                    <a href="{% url 'showAvailableTerms' specialization %}"><button class="button">Pokaż terminy</button></a>
                 </td>
             </tr>
         {% endfor %}

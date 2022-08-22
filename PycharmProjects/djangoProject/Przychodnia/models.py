@@ -47,13 +47,13 @@ class Term(models.Model):
 
 
 class Visit(models.Model):
-    patient = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Customer, on_delete=models.CASCADE)
     purpose = models.CharField(max_length=300, blank=True, null=True)
     term = models.OneToOneField(Term, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Pacjent: {self.patient.name} {self.patient.surname} " \
-               f"Lekarz: {self.term.doctor.name} {self.term.doctor.surname} " \
+               f"Lekarz: {self.term.doctor.name} {self.term.doctor.surname}  " \
                f"Data: {self.term.date}"
 
 
