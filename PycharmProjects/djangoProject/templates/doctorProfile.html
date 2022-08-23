@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Panel lekarza{% endblock title %}
+
+{% block content %}
+   <aside style="float: right; margin-right: -210px; margin-top: 100px">
+        {% if user.customer.userType == 'DOC' %}
+            <a id="a" href="{% url 'profile' %}">
+                <button style="margin-left: 40%; margin-top: 2px; width: 170px;" class="btn btn-warning">Powrót do
+                    osobistego profilu
+                </button>
+            </a>
+        {% endif %}
+        <a id="a" href="{% url 'logout' %}">
+            <button class="btn btn-info" style="margin-left: 40%; width: 170px;  border-radius: 5px; margin-top: 2px"
+                    onclick="logout()">Wyloguj
+            </button>
+        </a>
+    </aside>
+    <div id="content-main" style="background-color: #32bae3; height: 100%; margin-top: 53px">
+        <div id="docHeader">Panel lekarza {{ doctor.name }} {{ doctor.surname }}</div>
+        <h2 id="docH2">&nbsp;&nbsp;&nbsp;Wizyty do ciebie:</h2>
+        <div class="card text-white bg-dark mb-3" style="font-weight: bolder">
+            <div class="card-header">Wizyta 1. Termin</div>
+            <div class="card-body">
+                <h5 class="card-title" style="font-weight: bold">Stomatologia</h5>
+                <p class="card-text">Dane wizyty</p>
+            </div>
+            <a href="#" class="btn btn-primary" style="max-width: max-content; font-weight: bold; margin: 5px">
+                Edytuj wizytę</a>
+        </div>
+        <div class="card text-white bg-dark mb-3" style="font-weight: bolder">
+            <div class="card-header">Wizyta 2. Termin</div>
+            <div class="card-body">
+                <h5 class="card-title" style="font-weight: bold">Stomatologia</h5>
+                <p class="card-text">Dane wizyty</p>
+            </div>
+            <a href="#" class="btn btn-primary" style="max-width: max-content; font-weight: bold; margin: 5px">
+                Edytuj wizytę</a>
+        </div>
+
+    </div>
+    <br>
+
+    <script>
+        function logout() {
+            console.log("Wylogowywanie");
+        }
+    </script>
+{% endblock content %}

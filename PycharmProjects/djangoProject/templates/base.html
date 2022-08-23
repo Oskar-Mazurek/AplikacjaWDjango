@@ -11,7 +11,7 @@
 
     <link rel="icon" type="image/x-icon" href="{% static 'img/doctor.png' %}">
 </head>
-<body onload="initClock()">
+<body>
 <!--Pasek nawigacji-->
 
 <header>
@@ -39,22 +39,12 @@
     </ul>
 </header>
 <aside style="float: right">
-    <!--digital clock start-->
-    <div style="margin-top: 10vh; margin-right: 1vw" class="datetime">
-        <div class="date">
-            <span id="dayname">Day</span>,
-            <span id="month">Month</span>
-            <span id="daynum">00</span>,
-            <span id="year">Year</span>
-        </div>
-        <div class="time">
-            <span id="hour">00</span>:
-            <span id="minutes">00</span>:
-            <span id="seconds">00</span>
-            <span id="period">AM</span>
-        </div>
+    <div class="time">
+        <span class="hms"></span>
+        <span class="ampm"></span>
+        <br>
+        <span class="date"></span>
     </div>
-    <!--digital clock end-->
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -70,39 +60,63 @@
 <footer>
     <p>Specjalistyczna Poradnia Psychologiczno-Pedagogiczna ISTMUS</p>
 </footer>
-<script type="text/javascript">
-    function updateClock() {
-        var now = new Date();
-        var dname = now.getDay(),
-            mo = now.getMonth(),
-            dnum = now.getDate(),
-            yr = now.getFullYear(),
-            hou = now.getHours(),
-            min = now.getMinutes(),
-            sec = now.getSeconds()
+<script>
+    function updateTime() {
+        var dateInfo = new Date();
 
-        if (hou == 0) {
-            hou = 12;
+        /* time */
+        var hr,
+            _min = (dateInfo.getMinutes() < 10) ? "0" + dateInfo.getMinutes() : dateInfo.getMinutes(),
+            sec = (dateInfo.getSeconds() < 10) ? "0" + dateInfo.getSeconds() : dateInfo.getSeconds(),
+            ampm = (dateInfo.getHours() >= 12) ? "PM" : "AM";
+
+        if (dateInfo.getHours() === 0) {
+            hr = 12;
+        } else {
+            hr = dateInfo.getHours();
         }
 
-        Number.prototype.pad = function (digits) {
-            for (var n = this.toString(); n.length < digits; n = 0 + n) ;
-            return n;
-        }
+        var currentTime = hr + ":" + _min + ":" + sec;
 
-        var months = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień",
-            "Wrzesień", "Październik", "Listopad", "Grudzień"];
-        var week = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
-        var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
-        var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2)];
-        for (var i = 0; i < ids.length; i++)
-            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+        // print time
+        document.getElementsByClassName("hms")[0].innerHTML = currentTime;
+
+        /* date */
+        var dow = [
+                "Niedziela",
+                "Poniedziałek",
+                "Wtorek",
+                "Środa",
+                "Czwartek",
+                "Piątek",
+                "Sobota"
+            ],
+            month = [
+                "Styczeń",
+                "Luty",
+                "Marzec",
+                "Kwiecień",
+                "Maj",
+                "Czerwiec",
+                "Lipiec",
+                "Sierpień",
+                "Wrzesień",
+                "Październik",
+                "Listopad",
+                "Grudzień"
+            ],
+            day = dateInfo.getDate();
+
+        // store date
+        var currentDate = dow[dateInfo.getDay()] + ", " + month[dateInfo.getMonth()] + " " + day;
+
+        document.getElementsByClassName("date")[0].innerHTML = currentDate;
     }
 
-    function initClock() {
-        updateClock();
-        window.setInterval("updateClock()", 1);
-    }
+    updateTime();
+    setInterval(function () {
+        updateTime()
+    }, 1000);
 </script>
 </body>
 </html>

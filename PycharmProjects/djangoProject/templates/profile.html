@@ -6,39 +6,45 @@
     <div id="header">Witaj {{ customer.name }} {{ customer.surname }}</div>
     <div style=" display: flex;
     justify-content: space-between;">
-        <h2>Twoje dane</h2>
+        <h2>&nbsp;Twoje dane</h2>
         <h2 style="margin-right:38%">Twoje wizyty</h2>
     </div>
-    <aside style="float: right; margin-right: -340px; margin-top: 186px">
+    <aside style="float: right; margin-right: -30px;">
         <a style="text-decoration: none;" id="a" href="{% url 'doctorsList' %}">
-            <button class="btn btn-info" style="margin-left: 40%; margin-top: 5%; border-radius: 5px"
+            <button class="btn btn-info" style="margin-left: 40%; margin-top: 5%; width: 170px; border-radius: 5px"
                     onclick="zapisNaWizyte()">
                 Zapisz się na wizytę
             </button>
         </a>
+        {% if user.customer.userType == 'DOC' %}
+            <a id="a" href="{% url 'doctorProfile' %}">
+                <button style="margin-left: 40%; margin-top: 2px; width: 170px;" class="btn btn-warning">Panel lekarza
+                </button>
+            </a>
+        {% endif %}
         <a id="a" href="{% url 'logout' %}">
-            <button class="btn btn-info" style="margin-left: 40%; width: 150.15px;  border-radius: 5px; margin-top: 2px"
+            <button class="btn btn-info" style="margin-left: 40%; width: 170px;  border-radius: 5px; margin-top: 2px"
                     onclick="logout()">Wyloguj
             </button>
         </a>
         <div style="margin-left: 40%;"><a id="a" href="{% url 'contact' %}">
-            <button class="btn btn-info" style=" width: 150.15px;  border-radius: 5px; margin-top: 2px" type="button">
+            <button class="btn btn-info" style=" width: 170px;  border-radius: 5px; margin-top: 2px" type="button">
                 Kontakt
             </button>
         </a></div>
         <div style="margin-left: 40%;"><a href="{% url 'changePassword' %}">
-            <button class="btn btn-info" style=" width: 150.15px;  border-radius: 5px; margin-top: 2px" type="button">
+            <button class="btn btn-info" style=" width: 170px;  border-radius: 5px; margin-top: 2px" type="button">
                 Zmiana hasła
             </button>
         </a></div>
         <div style="margin-left: 40%;"><a href="{% url 'editProfile' %}">
-            <button class="btn btn-info" style=" width: 150.15px;  border-radius: 5px; margin-top: 2px" type="button">
+            <button class="btn btn-info" style=" width: 170px;  border-radius: 5px; margin-top: 2px" type="button">
                 Edycja profilu
             </button>
         </a></div>
     </aside>
-    <div class="row" style="margin-bottom: 10px">
-        <div class="column">
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="column" style="max-width: 300px">
             <table>
                 <tr>
                     <th>Etykieta</th>
@@ -95,13 +101,14 @@
                 </tr>
             </table>
         </div>
-        <div class="column" style="margin-bottom: 10vh">
-            <table>
+        <div class="columnR" style="margin-bottom: 10vh; ">
+            <table style="min-width: 567.5px">
                 <tr>
                     <th>Numer wizyty</th>
                     <th>Lekarz</th>
                     <th>Cel wizyty</th>
                     <th>Termin</th>
+                    <th>Pokój</th>
                     <th></th>
                 </tr>
                 {% for visit in visits %}
@@ -111,6 +118,7 @@
                             {#                            specjalizacja#}</td>
                         <td>{{ visit.purpose }}</td>
                         <td>{{ visit.term.date }}</td>
+                        <td>{{ visit.term.room }}</td>
                         <td>
                             <a href="{% url 'cancelVisit' visit.pk %}">
                                 <button class="btn btn-danger" style="color: black">Odwołaj</button>

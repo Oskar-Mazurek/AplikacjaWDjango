@@ -94,6 +94,7 @@ def profile(request):
     today = date.today()
     visits = Visit.objects.filter(patient=customer, term__date__gte=today).order_by('term__date')
     # specDoctors = SpecializationDoctor.objects.filter() brakuje specjalizacji
+
     return render(request, 'profile.html', {'user': user, 'customer': customer, 'visits': visits})
 
 
@@ -101,7 +102,7 @@ def profile(request):
 def patientsList(request):
     reqUserType = get_object_or_404(Customer, user=request.user, userType='DOC')
     if reqUserType:
-        patients = Customer.objects.filter(userType='PAT')
+        patients = Customer.objects.filter(userType='PAT').order_by('surname')
         return render(request, 'patientsList.html',
                       {'patients': patients})
 
@@ -193,3 +194,15 @@ def cancelVisit(request, visitId):
         return redirect('profile')
     return render(request, 'cancelVisit.html', {'visit': visit})
     # return render(request, 'cancelVisit.html', {'visit': visit, 'specDoc': specDoc})
+
+
+@login_required()
+def doctorProfile(request):
+    user = get_object_or_404(User, pk=request.user.id)
+    doctor = get_object_or_404(Customer, user=user)
+    terms = Term.objects.filter(doctor=doctor)
+    reqUserType = get_object_or_404(Customer, user=request.user, userType='DOC')
+    today = date.today()
+    visits = Visit.objects.filter(term=terms, term__date__gte=today).order_by('term__date')
+    # specDoctors = SpecializationDoctor.objects.filter() brakuje specjalizacji
+    return render(request, 'doctorProfile.html', {'user': user, 'doctor': doctor, 'visits': visits})

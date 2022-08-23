@@ -13,7 +13,7 @@ urlpatterns = [
     path('spisSpecjalizacji/dostepneTerminy/<str:specialization>/', views.showAvailableTerms,
          name='showAvailableTerms'),
     path('spisSpecjalizacji/dostepneTerminy/zapiszSieNaWizyte/<int:termId>/', views.makeVisit, name='makeVisit'),
-
+    path('profil/lekarz/', views.doctorProfile, name='doctorProfile'),
     # auth
     path('login/', views.log, name='login'),
     path('rejestracja/', views.register, name='register'),
