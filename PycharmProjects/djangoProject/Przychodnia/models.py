@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import timedelta
 
 
 # Create your models here.
@@ -26,11 +27,15 @@ class Customer(models.Model):
 
     def __str__(self):
         if (self.userType == 'ADM'):
-            return "Nazwa użytkownika:" + str(self.user.username) + " Typu: Administrator"
+            return "Nazwa użytkownika:" + self.user.username + " Typu: Administrator"
         if (self.userType == 'DOC'):
-            return "Nazwa użytkownika:" + str(self.user.username) + " Typu: Lekarz"
+            specializations =self.specializationdoctor_set.all()
+            myString = ""
+            for spec in specializations:
+                myString+=f'{spec.specializations} '
+            return "Nazwa użytkownika:" + self.user.username + " Typu: Lekarz" + " " + myString
         if (self.userType == 'PAT'):
-            return "Nazwa użytkownika:" + str(self.user.username) + " Typu: Pacjent"
+            return "Nazwa użytkownika:" + self.user.username + " Typu: Pacjent"
 
 
 class Term(models.Model):
@@ -38,12 +43,13 @@ class Term(models.Model):
     taken = models.BooleanField(default=False)
     doctor = models.ForeignKey(Customer, on_delete=models.CASCADE)
     room = models.CharField(max_length=6, null=True, blank=True)
+    specializationName = models.CharField(max_length=15, default="")
 
     def __str__(self):
         if (self.taken == 1):
-            return "ID:" + str(self.pk) + " Termin: " + str(self.date) + " Zajęty"
+            return "ID:" + str(self.pk) + " Termin: " + str(self.date + timedelta(hours=2)) + " Zajęty" + " " + str(self.specializationName)
         if (self.taken == 0):
-            return "ID:" + str(self.pk) + " Termin: " + str(self.date) + " Wolny"
+            return "ID:" + str(self.pk) + " Termin: " + str(self.date + timedelta(hours=2)) + " Wolny" + " " + str(self.specializationName)
 
 
 class Visit(models.Model):

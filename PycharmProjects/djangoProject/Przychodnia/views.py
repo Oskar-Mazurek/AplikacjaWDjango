@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import CustomerForm, EditProfileForm
+from .forms import CustomerForm, EditProfileForm, EditTermForm
 from .models import *
 
 
@@ -87,13 +87,20 @@ def contact(request):
     return render(request, 'contact.html')
 
 
+def getVisitSpecName(visits):
+    for visit in visits:
+        term = visit.term
+        visitSpec = term.specializationName
+        visit.specializationName = visitSpec
+
+
 @login_required
 def profile(request):
     user = get_object_or_404(User, pk=request.user.id)
     customer = get_object_or_404(Customer, user=user)
     today = date.today()
     visits = Visit.objects.filter(patient=customer, term__date__gte=today).order_by('term__date')
-    # specDoctors = SpecializationDoctor.objects.filter() brakuje specjalizacji
+    getVisitSpecName(visits)
 
     return render(request, 'profile.html', {'user': user, 'customer': customer, 'visits': visits})
 
@@ -120,7 +127,8 @@ def showAvailableTerms(request, specialization):
     specDoctors = SpecializationDoctor.objects.filter(specializations=spec)
     today = date.today()
     for specDoctor in specDoctors:
-        specTerms = Term.objects.filter(taken=False, doctor=specDoctor.doctor, date__gte=today).order_by('date')
+        specTerms = Term.objects.filter(taken=False, doctor=specDoctor.doctor, date__gte=today,
+                                        specializationName=specialization).order_by('date')
         try:
             terms = terms | specTerms
         except:
@@ -182,10 +190,9 @@ def cancelVisit(request, visitId):
     visit = get_object_or_404(Visit, pk=visitId)
     termID = visit.term.pk
     term = get_object_or_404(Term, pk=termID)
-    doctorID = term.doctor.pk
-    doctor = get_object_or_404(Customer, pk=doctorID)
-    # specDoc = get_object_or_404(SpecializationDoctor, doctor=doctor)
-    # jak wypisać specjalizację lekarza dla określonej wizyty
+    visitSpec = term.specializationName
+    visit.specializationName = visitSpec
+
     if request.method == 'POST':
         term.taken = False
         term.save()
@@ -193,16 +200,32 @@ def cancelVisit(request, visitId):
         messages.success(request, 'Usunięto wizytę' + str(visitId))
         return redirect('profile')
     return render(request, 'cancelVisit.html', {'visit': visit})
-    # return render(request, 'cancelVisit.html', {'visit': visit, 'specDoc': specDoc})
+
 
 
 @login_required()
 def doctorProfile(request):
     user = get_object_or_404(User, pk=request.user.id)
-    doctor = get_object_or_404(Customer, user=user)
-    terms = Term.objects.filter(doctor=doctor)
-    reqUserType = get_object_or_404(Customer, user=request.user, userType='DOC')
+    doctor = get_object_or_404(Customer, user=user, userType='DOC')
     today = date.today()
-    visits = Visit.objects.filter(term=terms, term__date__gte=today).order_by('term__date')
-    # specDoctors = SpecializationDoctor.objects.filter() brakuje specjalizacji
-    return render(request, 'doctorProfile.html', {'user': user, 'doctor': doctor, 'visits': visits})
+    terms = Term.objects.filter(doctor=doctor, date__gte=today, taken=True).order_by('date')
+    visitsList = []
+    for term in terms:
+        visit = term.visit
+        visit.specName = term.specializationName
+        visitsList.append(visit)
+
+    return render(request, 'doctorProfile.html', {'user': user, 'doctor': doctor, 'visits': visitsList})
+
+
+def editVisitByDoctor(request, visitId):
+    visit = get_object_or_404(Visit, pk=visitId)
+    term = visit.term
+    editTermForm = EditTermForm(request.POST or None, instance=term)
+
+    if editTermForm.is_valid():
+        editTermForm.save()
+        messages.success(request, 'Edycja wizyty:' + str(visitId) + " udana")
+        return redirect('doctorProfile')
+
+    return render(request, 'editVisitByDoctor.html', {'editTermForm': editTermForm, 'visitId': visitId})

@@ -14,6 +14,7 @@ urlpatterns = [
          name='showAvailableTerms'),
     path('spisSpecjalizacji/dostepneTerminy/zapiszSieNaWizyte/<int:termId>/', views.makeVisit, name='makeVisit'),
     path('profil/lekarz/', views.doctorProfile, name='doctorProfile'),
+    path('profil/lekarz/edytujWizyte/<int:visitId>/', views.editVisitByDoctor, name='editVisitByDoctor'),
     # auth
     path('login/', views.log, name='login'),
     path('rejestracja/', views.register, name='register'),

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Edycja wizyty nr:{{ visitId }}{% endblock title %}
+
+{% block content %}
+    <div class="main">
+        <div id="docHeader" style="margin-top: 100px">Uzupełnij poniższe pola aby zmienić dane wizyty</div>
+        <div class="center">
+            <form method="post" action="{% url 'editVisitByDoctor' visitId %}">
+                {% csrf_token %}
+                {{ editTermForm|bootstrap }}
+                <button style="margin-top: 2px; color: black" class="btn btn-success" type="submit">Zapisz zmianę
+                </button>
+                <a href="{% url 'doctorProfile' %}">
+                    <button type="button" style="margin-top: 2px; color: black" class="btn btn-info">Wróć</button>
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

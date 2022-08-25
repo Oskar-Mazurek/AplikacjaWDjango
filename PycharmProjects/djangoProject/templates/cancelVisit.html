@@ -11,7 +11,7 @@
                 {% csrf_token %}
                 <h3 style="font-weight: bolder">Dane wizyty:</h3>
                 <h4>{{ visit.term.doctor.name }} {{ visit.term.doctor.surname }}</h4>
-{#                <h4>{{ specDoc.specializations.name }}</h4>#}
+                <h4>{{ visit.specializationName }}</h4>
                 <h4>{{ visit.term.date }}</h4>
                 <button type="submit" style="color: black" class="btn btn-danger">Usuń wizytę</button>
                 <a href="{% url 'profile' %}">

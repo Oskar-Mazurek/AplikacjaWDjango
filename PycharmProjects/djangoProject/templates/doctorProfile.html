@@ -3,7 +3,7 @@
 {% block title %}Panel lekarza{% endblock title %}
 
 {% block content %}
-   <aside style="float: right; margin-right: -210px; margin-top: 100px">
+    <aside style="float: right; margin-right: -210px; margin-top: 100px">
         {% if user.customer.userType == 'DOC' %}
             <a id="a" href="{% url 'profile' %}">
                 <button style="margin-left: 40%; margin-top: 2px; width: 170px;" class="btn btn-warning">Powrót do
@@ -17,31 +17,31 @@
             </button>
         </a>
     </aside>
-    <div id="content-main" style="background-color: #32bae3; height: 100%; margin-top: 53px">
+    <div id="content-main" style="background-color: #32bae3; height: 100%; margin-top: 53px;">
         <div id="docHeader">Panel lekarza {{ doctor.name }} {{ doctor.surname }}</div>
         <h2 id="docH2">&nbsp;&nbsp;&nbsp;Wizyty do ciebie:</h2>
-        <div class="card text-white bg-dark mb-3" style="font-weight: bolder">
-            <div class="card-header">Wizyta 1. Termin</div>
-            <div class="card-body">
-                <h5 class="card-title" style="font-weight: bold">Stomatologia</h5>
-                <p class="card-text">Dane wizyty</p>
+        {% for visit in visits %}
+            <div class="card text-white bg-dark mb-3" style="font-weight: bolder; border: solid white;">
+                <div class="card-header">Wizyta {{ forloop.counter }}.</div>
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: bold">{{ visit.specName }}</h5>
+                    <p class="card-text" style="font-weight: bold;">Dane wizyty:</p>
+                    <ul style="list-style-type:square;">
+                        <li>Pacjent: {{ visit.patient.name }}
+                            {{ visit.patient.surname }}</li>
+                        <li>Pesel: {{ visit.patient.pesel }}</li>
+                        <li>Cel: {{ visit.purpose }}</li>
+                        <li>Termin wizyty: {{ visit.term.date }}</li>
+                        <li>Pokój: {{ visit.term.room }}</li>
+                    </ul>
+                </div>
+                <a href="{% url 'editVisitByDoctor' visit.pk %}" class="btn btn-primary"
+                   style="max-width: max-content; font-weight: bold; margin: 5px">
+                    Edytuj wizytę</a>
             </div>
-            <a href="#" class="btn btn-primary" style="max-width: max-content; font-weight: bold; margin: 5px">
-                Edytuj wizytę</a>
-        </div>
-        <div class="card text-white bg-dark mb-3" style="font-weight: bolder">
-            <div class="card-header">Wizyta 2. Termin</div>
-            <div class="card-body">
-                <h5 class="card-title" style="font-weight: bold">Stomatologia</h5>
-                <p class="card-text">Dane wizyty</p>
-            </div>
-            <a href="#" class="btn btn-primary" style="max-width: max-content; font-weight: bold; margin: 5px">
-                Edytuj wizytę</a>
-        </div>
-
+        {% endfor %}
+        <br>
     </div>
-    <br>
-
     <script>
         function logout() {
             console.log("Wylogowywanie");

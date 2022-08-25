@@ -48,4 +48,14 @@ class TermForm(ModelForm):
 
     class Meta:
         model = Term
-        fields = ('date', 'taken', 'doctor', 'room')
+        fields = ('date', 'taken', 'doctor', 'room', 'specializationName')
+
+
+class EditTermForm(ModelForm):
+    class Meta:
+        model = Term
+        fields = ('date', 'room')
+        labels = {
+            'date': 'Data wizyty:',
+            'room': 'Pokój odbywania wizyty:'
+        }

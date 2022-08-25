@@ -369,7 +369,7 @@ tr:nth-child(odd) {
 
 .time {
     margin-top: 2px;
-    background: rgb(12, 12, 12);
+    background: #32bae3;
     color: #fff;
     border: 2px solid rgb(255, 252, 252);
     border-radius: 10px;
