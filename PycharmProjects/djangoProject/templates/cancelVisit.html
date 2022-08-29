@@ -13,6 +13,9 @@
                 <h4>{{ visit.term.doctor.name }} {{ visit.term.doctor.surname }}</h4>
                 <h4>{{ visit.specializationName }}</h4>
                 <h4>{{ visit.term.date }}</h4>
+                <label>Wpisz kod otrzymany na numer telefonu:</label><br>
+                <input type="text" name="verificationCode"><br>
+                <button type="button" name="generateCode">Wygeneruj kod</button>
                 <button type="submit" style="color: black" class="btn btn-danger">Usuń wizytę</button>
                 <a href="{% url 'profile' %}">
                     <button type="button" style="color: black" class="btn btn-info">Wróć</button>

@@ -1,16 +1,28 @@
+import random
 from datetime import date
 
+import environ
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from twilio.rest import Client
 
 from .forms import CustomerForm, EditProfileForm, EditTermForm
 from .models import *
+from .tokens import account_verification_token
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Create your views here.
@@ -64,7 +76,18 @@ def register(request):
                 return render(request, 'registration/register.html',
                               {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
             messages.success(request, 'Pomyślnie zarejestrowano! Teraz zaloguj się')  # komunikat ze success
+            user.is_active = False
             user.save()
+            currentSite = get_current_site(request)
+            mailSubject = 'Potwierdzenie adresu email'
+            message = render_to_string('accountActivationEmail.html', {'user': user,
+                                                                       'domain': currentSite.domain,
+                                                                       'uid': urlsafe_base64_encode(
+                                                                           force_bytes(user.pk)),
+                                                                       'token': account_verification_token.make_token(
+                                                                           user)})
+            email = EmailMessage(mailSubject, message, to=[user.email])
+            email.send()
             if customerForm.is_valid():
                 customer = customerForm.save(commit=False)
                 customer.user = user
@@ -188,19 +211,42 @@ def editProfile(request):
 
 def cancelVisit(request, visitId):
     visit = get_object_or_404(Visit, pk=visitId)
+    userTelephoneNumber = request.user.customer.telephoneNumber
     termID = visit.term.pk
     term = get_object_or_404(Term, pk=termID)
     visitSpec = term.specializationName
     visit.specializationName = visitSpec
+    # SMS preparation
+
+    # account_sid = env('TWILIO_ACCOUNT_SID')
+    # auth_token = env('TWILIO_AUTH_TOKEN')
+    # MyTwilioPhoneNumber = env('MyTwilioPhoneNumber')
+    # client = Client(account_sid, auth_token)
+
+    # verificationCode = ""
+    # for i in range(6):
+    #     index = random.randrange(10)
+    #     verificationCode += str(index)
+    # print(verificationCode)
 
     if request.method == 'POST':
+
+        # message = client.messages.create(
+        #     body=f'Twój kod weryfikacyjny do odwołania wizyty:{verificationCode}',
+        #     from_=MyTwilioPhoneNumber,
+        #     to=f'+48{userTelephoneNumber}'
+        # )
+        # print("request.POST["+request.POST['verificationCode'])
+        # if request.POST['verificationCode'] == verificationCode:
         term.taken = False
         term.save()
         visit.delete()
         messages.success(request, 'Usunięto wizytę' + str(visitId))
         return redirect('profile')
-    return render(request, 'cancelVisit.html', {'visit': visit})
+        # else:
+        #     messages.error(request, 'Wpisany kod jest nie poprawny')
 
+    return render(request, 'cancelVisit.html', {'visit': visit})
 
 
 @login_required()
@@ -229,3 +275,17 @@ def editVisitByDoctor(request, visitId):
         return redirect('doctorProfile')
 
     return render(request, 'editVisitByDoctor.html', {'editTermForm': editTermForm, 'visitId': visitId})
+
+
+def activate(request, uidb64, token):
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user = get_object_or_404(User, pk=uid)
+    if account_verification_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        messages.success(request, 'Potwierdzono adres email')
+        return redirect('profile')
+    else:
+        messages.success(request, 'Błąd potwierdzenia adresu email')
+        return redirect('homepage')

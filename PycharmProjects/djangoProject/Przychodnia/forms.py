@@ -5,7 +5,6 @@ from .models import Customer, SpecializationDoctor, Term
 
 
 class CustomerForm(ModelForm):
-    # Haslo = forms.CharField(widget=forms.PasswordInput)
     email = forms.EmailField(required=True, label='Email')
 
     class Meta:
@@ -44,7 +43,7 @@ class SpecializationDoctorForm(ModelForm):
 
 
 class TermForm(ModelForm):
-    doctor = forms.ModelChoiceField(queryset=Customer.objects.filter(userType='DOC'), empty_label='---------')
+    doctor = forms.ModelChoiceField(queryset=Customer.objects.filter(userType='DOC'), empty_label='----------')
 
     class Meta:
         model = Term
@@ -59,3 +58,4 @@ class EditTermForm(ModelForm):
             'date': 'Data wizyty:',
             'room': 'Pokój odbywania wizyty:'
         }
+
