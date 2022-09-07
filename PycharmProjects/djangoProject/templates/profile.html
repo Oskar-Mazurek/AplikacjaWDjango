@@ -10,8 +10,16 @@
         <h2 style="margin-right:38%">Twoje wizyty</h2>
     </div>
     <aside style="float: right; margin-right: -30px;">
+    <div class="card text-white bg-success mb-3" style="max-width: 170px; -webkit-text-stroke: 0.5px white; margin-left: 40%;">
+            <div class="card-header">Typ użytkownika:</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ customer.displayUserType }}</h5>
+                <p class="card-text"
+                   style="font-size: 6pt">Jeśli się nie zgadza skontaktuj się z administratorem.</p>
+            </div>
+        </div>
         <a style="text-decoration: none;" id="a" href="{% url 'doctorsList' %}">
-            <button class="btn btn-info" style="margin-left: 40%; margin-top: 5%; width: 170px; border-radius: 5px"
+            <button class="btn btn-info" style="margin-left: 40%; width: 170px; border-radius: 5px"
                     onclick="zapisNaWizyte()">
                 Zapisz się na wizytę
             </button>
@@ -19,6 +27,13 @@
         {% if user.customer.userType == 'DOC' %}
             <a id="a" href="{% url 'doctorProfile' %}">
                 <button style="margin-left: 40%; margin-top: 2px; width: 170px;" class="btn btn-warning">Panel lekarza
+                </button>
+            </a>
+        {% endif %}
+        {% if user.customer.userType == 'ADM' %}
+            <a id="a" href="{% url 'admin:index' %}">
+                <button style="margin-left: 40%; margin-top: 2px; width: 170px;" class="btn btn-warning">Panel
+                    administratora
                 </button>
             </a>
         {% endif %}
@@ -42,7 +57,7 @@
                 Edycja profilu
             </button>
         </a></div>
-    </aside>
+            </aside>
     <div class="row" style="margin-bottom: 10px;">
         <div class="column" style="max-width: 300px">
             <table>
@@ -98,6 +113,10 @@
                 <tr>
                     <td>Data dołączenia</td>
                     <td>{{ user.date_joined }}</td>
+                </tr>
+                <tr>
+                    <td>Data ostatniego udanego logowania</td>
+                    <td>{{ user.last_login }}</td>
                 </tr>
             </table>
         </div>

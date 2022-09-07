@@ -1,3 +1,4 @@
+import hashlib
 import random
 from datetime import date
 
@@ -75,7 +76,8 @@ def register(request):
                                'Spróbuj ponownie. Podany użytkownik istnieje już w bazie, popraw formularz rejestracji')
                 return render(request, 'registration/register.html',
                               {'customerForm': CustomerForm(), 'userForm': UserCreationForm()})
-            messages.success(request, 'Pomyślnie zarejestrowano! Teraz zaloguj się')  # komunikat ze success
+            messages.success(request,
+                             'Pomyślnie zarejestrowano! Sprawdź maila i potwierdź swój adres email, a następnie zaloguj się')  # komunikat ze success
             user.is_active = False
             user.save()
             currentSite = get_current_site(request)
@@ -160,7 +162,7 @@ def showAvailableTerms(request, specialization):
     # lista = queryset1 | queryset2
     return render(request, 'showAvailableTerms.html', {'terms': terms, 'specialization': specialization})
 
-
+@login_required
 def makeVisit(request, termId):
     if request.method == 'GET':
         return render(request, 'makeVisit.html', {'termId': termId})
@@ -208,45 +210,43 @@ def editProfile(request):
             messages.error(request, 'Popraw błędy w formularzu!')
     return render(request, ' editProfile.html', {'form': editProfileForm})
 
-
+@login_required
 def cancelVisit(request, visitId):
     visit = get_object_or_404(Visit, pk=visitId)
-    userTelephoneNumber = request.user.customer.telephoneNumber
     termID = visit.term.pk
     term = get_object_or_404(Term, pk=termID)
     visitSpec = term.specializationName
     visit.specializationName = visitSpec
-    # SMS preparation
-
-    # account_sid = env('TWILIO_ACCOUNT_SID')
-    # auth_token = env('TWILIO_AUTH_TOKEN')
-    # MyTwilioPhoneNumber = env('MyTwilioPhoneNumber')
-    # client = Client(account_sid, auth_token)
-
-    # verificationCode = ""
-    # for i in range(6):
-    #     index = random.randrange(10)
-    #     verificationCode += str(index)
-    # print(verificationCode)
+    if request.method == 'GET':
+        # code generation
+        verificationCode = ""
+        for i in range(6):
+            index = random.randrange(10)
+            verificationCode += str(index)
+        # result = hashlib.md5(str.encode(verificationCode))
+        userTelephoneNumber = request.user.customer.telephoneNumber
+        # SMS preparation
+        account_sid = env('TWILIO_ACCOUNT_SID')
+        auth_token = env('TWILIO_AUTH_TOKEN')
+        MyTwilioPhoneNumber = env('MyTwilioPhoneNumber')
+        client = Client(account_sid, auth_token)
+        message = client.messages.create(
+            body=f'Twój kod weryfikacyjny do odwołania wizyty:{verificationCode}',
+            from_=MyTwilioPhoneNumber,
+            to=f'+48{userTelephoneNumber}'
+        )
+        return render(request, 'cancelVisit.html', {'visit': visit, 'verCode': verificationCode})
 
     if request.method == 'POST':
-
-        # message = client.messages.create(
-        #     body=f'Twój kod weryfikacyjny do odwołania wizyty:{verificationCode}',
-        #     from_=MyTwilioPhoneNumber,
-        #     to=f'+48{userTelephoneNumber}'
-        # )
-        # print("request.POST["+request.POST['verificationCode'])
-        # if request.POST['verificationCode'] == verificationCode:
-        term.taken = False
-        term.save()
-        visit.delete()
-        messages.success(request, 'Usunięto wizytę' + str(visitId))
-        return redirect('profile')
-        # else:
-        #     messages.error(request, 'Wpisany kod jest nie poprawny')
-
-    return render(request, 'cancelVisit.html', {'visit': visit})
+        if request.POST['verificationCode'] == request.POST['hiddenVerificationCode']:
+            term.taken = False
+            term.save()
+            visit.delete()
+            messages.success(request, 'Usunięto wizytę o ID: ' + str(visitId))
+            return redirect('profile')
+        else:
+            messages.error(request, 'Wpisany kod jest nie poprawny')
+            return render(request, 'cancelVisit.html', {'visit': visit})
 
 
 @login_required()
@@ -263,7 +263,7 @@ def doctorProfile(request):
 
     return render(request, 'doctorProfile.html', {'user': user, 'doctor': doctor, 'visits': visitsList})
 
-
+@login_required
 def editVisitByDoctor(request, visitId):
     visit = get_object_or_404(Visit, pk=visitId)
     term = visit.term

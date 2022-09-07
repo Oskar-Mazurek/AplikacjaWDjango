@@ -202,6 +202,7 @@ footer {
     font-size: larger;
     max-width: 300px;
     text-align: justify;
+    -webkit-text-stroke: 0.5px #bb0a1e;
 }
 
 @keyframes blinkingError {
@@ -293,6 +294,7 @@ table {
     width: 75%;
     border: 1px solid #96e796;
     margin-bottom: 10vh;
+    border-radius: 5px; !important;
 }
 
 th {
@@ -381,12 +383,12 @@ tr:nth-child(odd) {
 }
 
 .hms {
-    font-size: 10pt;
+    font-size: 20pt;
     font-weight: bolder;
 }
 
 .date {
-    font-size: 10pt;
+    font-size: 12pt;
 }
 
 textarea {
@@ -432,4 +434,11 @@ textarea {
         padding: 5px;
     }
 
+}
+
+.help-block {
+    color: red;
+    font-weight: bolder;
+    font-size: larger;
+    -webkit-text-stroke: 0.5px #bb0a1e;
 }

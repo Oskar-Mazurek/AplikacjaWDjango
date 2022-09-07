@@ -13,6 +13,7 @@
             <th>Ulica</th>
             <th>Miasto</th>
             <th>Kod Pocztowy</th>
+            <th>Numer telefonu</th>
         </tr>
 
         {% for patient in patients %}
@@ -24,6 +25,7 @@
                 <td>{{ patient.street }}</td>
                 <td>{{ patient.city }}</td>
                 <td>{{ patient.zipCode }}</td>
+                <td>{{ patient.telephoneNumber }}</td>
             </tr>
         {% endfor %}
 
