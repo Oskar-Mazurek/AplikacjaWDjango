@@ -33,7 +33,7 @@ DEBUG = False
 # DEBUG = True
 
 # ALLOWED_HOSTS = ['localhost:8000', '127.0.0.1:8000']
-ALLOWED_HOSTS = ['przychodnia-app.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['rejestracjadoprzychodni.herokuapp.com', '127.0.0.1', 'localhost:8000']
 
 # Application definition
 
