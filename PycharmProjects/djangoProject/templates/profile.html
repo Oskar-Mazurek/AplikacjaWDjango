@@ -7,10 +7,11 @@
     <div style=" display: flex;
     justify-content: space-between;">
         <h2>&nbsp;Twoje dane</h2>
-        <h2 style="margin-right:38%">Twoje wizyty</h2>
+        {% if user.customer.userType == 'PAT' %}<h2 style="margin-right:38%">Twoje wizyty</h2>{% endif %}
     </div>
     <aside style="float: right; margin-right: -30px;">
-    <div class="card text-white bg-success mb-3" style="max-width: 170px; -webkit-text-stroke: 0.5px white; margin-left: 40%;">
+        <div class="card text-white bg-success mb-3"
+             style="max-width: 170px; -webkit-text-stroke: 0.5px white; margin-left: 40%;">
             <div class="card-header">Typ użytkownika:</div>
             <div class="card-body">
                 <h5 class="card-title">{{ customer.displayUserType }}</h5>
@@ -19,10 +20,11 @@
             </div>
         </div>
         <a style="text-decoration: none;" id="a" href="{% url 'doctorsList' %}">
-            <button class="btn btn-info" style="margin-left: 40%; width: 170px; border-radius: 5px"
-                    onclick="zapisNaWizyte()">
-                Zapisz się na wizytę
-            </button>
+            {% if user.customer.userType == 'PAT' %}
+                <button class="btn btn-info" style="margin-left: 40%; width: 170px; border-radius: 5px"
+                        onclick="zapisNaWizyte()">
+                    Zapisz się na wizytę
+                </button>{% endif %}
         </a>
         {% if user.customer.userType == 'DOC' %}
             <a id="a" href="{% url 'doctorProfile' %}">
@@ -57,7 +59,7 @@
                 Edycja profilu
             </button>
         </a></div>
-            </aside>
+    </aside>
     <div class="row" style="margin-bottom: 10px;">
         <div class="column" style="max-width: 300px">
             <table>
@@ -120,36 +122,38 @@
                 </tr>
             </table>
         </div>
-        <div class="columnR" style="margin-bottom: 10vh; ">
-            <table style="min-width: 567.5px">
-                <tr>
-                    <th>Numer wizyty</th>
-                    <th>Lekarz</th>
-                    <th>Cel wizyty</th>
-                    <th>Termin</th>
-                    <th>Pokój</th>
-                    <th></th>
-                </tr>
-                {% for visit in visits %}
+        {% if user.customer.userType == 'PAT' %}
+            <div class="columnR" style="margin-bottom: 10vh; ">
+                <table style="min-width: 567.5px">
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ visit.term.doctor.name }} {{ visit.term.doctor.surname }}
-                            {{ visit.specializationName }}</td>
-                        <td>{{ visit.purpose }}</td>
-                        <td>{{ visit.term.date }}</td>
-                        <td>{{ visit.term.room }}</td>
-                        <td>
-                            <a href="{% url 'cancelVisit' visit.pk %}">
-                                <button class="btn btn-danger" style="color: black">Odwołaj</button>
-                            </a>
-                        </td>
+                        <th>Numer wizyty</th>
+                        <th>Lekarz</th>
+                        <th>Cel wizyty</th>
+                        <th>Termin</th>
+                        <th>Pokój</th>
+                        <th></th>
                     </tr>
-                {% endfor %}
+                    {% for visit in visits %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ visit.term.doctor.name }} {{ visit.term.doctor.surname }}
+                                {{ visit.specializationName }}</td>
+                            <td>{{ visit.purpose }}</td>
+                            <td>{{ visit.term.date }}</td>
+                            <td>{{ visit.term.room }}</td>
+                            <td>
+                                <a href="{% url 'cancelVisit' visit.pk %}">
+                                    <button class="btn btn-danger" style="color: black">Odwołaj</button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
 
-            </table>
+                </table>
 
-        </div>
-    </div>
+            </div>
+            </div>
+        {% endif %}
     <br>
 
     <script>

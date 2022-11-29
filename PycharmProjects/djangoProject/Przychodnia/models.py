@@ -9,10 +9,10 @@ class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     USER_TYPES = (('ADM', 'Administrator'), ('DOC', 'Lekarz'), ('PAT', 'Pacjent'))
     userType = models.CharField(max_length=3, choices=USER_TYPES, default='PAT')
-    pesel = models.IntegerField(unique=True)
+    pesel = models.IntegerField(unique=True, null=True, blank=True)
     name = models.CharField(max_length=20)
     surname = models.CharField(max_length=40)
-    telephoneNumber = models.IntegerField(blank=True)
+    telephoneNumber = models.IntegerField(verbose_name='Numer telefonu', null=False, blank=False)
     street = models.CharField(max_length=40)
     city = models.CharField(max_length=40)
     zipCode = models.CharField(max_length=6)
@@ -40,7 +40,7 @@ class Customer(models.Model):
 
 class Term(models.Model):
     date = models.DateTimeField()
-    taken = models.BooleanField(default=False)
+    taken = models.BooleanField(default=False,verbose_name='Pokój')
     doctor = models.ForeignKey(Customer, on_delete=models.CASCADE)
     room = models.CharField(max_length=6, null=True, blank=True)
     specializationName = models.CharField(max_length=15, default="")

@@ -13,7 +13,7 @@ header {
 
 html {
     background-color: paleturquoise;
-    -webkit-text-stroke: 0.5px black;
+    /*-webkit-text-stroke: 0.5px black;*/
     background-size: cover;
 }
 
@@ -294,7 +294,8 @@ table {
     width: 75%;
     border: 1px solid #96e796;
     margin-bottom: 10vh;
-    border-radius: 5px; !important;
+    border-radius: 5px;
+!important;
 }
 
 th {
@@ -321,6 +322,13 @@ tr:nth-child(odd) {
         margin-left: -50px;
         margin-top: 150px;
         background-color: #a6eea6;
+    }
+
+    #nazwa {
+        font-weight: bold;
+        text-align: center;
+        color: white;
+        font-size: 40px;
     }
 
     #content-main {
